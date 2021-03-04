@@ -1,4 +1,4 @@
 package com.company.repositories.interfaces;
 
-public interface IAllReposotries {
+public interface IAllRepositories {
 }
