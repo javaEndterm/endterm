@@ -13,20 +13,5 @@ public class Main {
         AllControllers controller = new AllControllers(repositories);
         MyApplication application = new MyApplication(controller);
         application.start();
-        IDB database = new DB();
-        IAllRepositories repositories = new AllRepositories(database);
-        AllControllers controller = new AllControllers(repositories);
-        MyApplication application = new MyApplication(controller);
-        application.start();IDB database = new DB();
-        IAllRepositories repositories = new AllRepositories(database);
-        AllControllers controller = new AllControllers(repositories);
-        MyApplication application = new MyApplication(controller);
-        application.start();
-        IDB database = new DB();
-        IAllRepositories repositories = new AllRepositories(database);
-        AllControllers controller = new AllControllers(repositories);
-        MyApplication application = new MyApplication(controller);
-        application.start();
-
     }
 }
