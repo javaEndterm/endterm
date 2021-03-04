@@ -8,10 +8,6 @@ import com.company.repositories.interfaces.IAllRepositories;
 
 public class Main {
     public static void main(String[] args) {
-        IDB database = new DB();
-        IAllRepositories repositories = new AllRepositories(database);
-        AllControllers controller = new AllControllers(repositories);
-        MyApplication application = new MyApplication(controller);
-        application.start();
+
     }
 }
