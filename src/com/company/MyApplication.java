@@ -1,8 +1,11 @@
 package com.company;
 
 import com.company.controllers.AllControllers;
+import com.company.entities.Users;
 
 import java.time.LocalDate;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -19,9 +22,10 @@ public class MyApplication {
 //            System.err.println("\nAdmin:\n    Login: admin\n    Password: admin12345\n----------\nDeveloper: \n    Login: dev\n    Password: dev12345");
             System.out.println("");
             System.out.println("Welcome to my application");
-            System.out.println("Select option: (1-2)");
+            System.out.println("Select option: (1-3)");
             System.out.println("1. Registration");
             System.out.println("2. Login");
+            System.out.println("3. For admin");
             int option = scanner.nextInt();
             if(option==1){
                 System.out.println("Enter name: ");
@@ -36,6 +40,7 @@ public class MyApplication {
                 LocalDate atDate = LocalDate.parse(scanner.next());
                 LocalDate regDate = LocalDate.now();
                 isRegistered(name, surname, login, regDate, wantTo, atDate);
+                start();
             }
             if(option==2){
                 System.out.println("Enter login:");
@@ -45,8 +50,10 @@ public class MyApplication {
                 if (hasUser(login, password) == true) {
                     System.out.println("hasUser");
                     //true == correct
-//                if (isAdmin(login, password) == true) {
-//                    //Admin functions
+                    if (isAdmin(login, password) == true) {
+                        System.out.println("Welcome, admin!");
+                        admin();
+                    }
 //                } else {
 //                    //User functions
 //                }
@@ -58,6 +65,7 @@ public class MyApplication {
 
 
             }
+
 
 //            if (login.equals("admin") && password.equals("admin12345")) {
 //                Director_start();
@@ -85,6 +93,61 @@ public class MyApplication {
         String response = controller.isRegistered(name, surname, login, regDate, wantTo, atDate);
         System.out.println(response);
     }
+    public boolean isAdmin(String login, String password){
+     boolean response = controller.hasUser(login, password);
+     return response;
+    }
+    public void admin(){
+        System.out.println("Select option: (1-3)");
+        System.out.println("1. Get all users");
+        System.out.println("2. Add new user");
+        System.out.println("3. Remove user by ID");
+        try {
+            int option = scanner.nextInt();
+            if(option==1){
+                getAllUsers();
+            }
+            if(option==2){
+                addNewUser();
+            }
+            if(option==3){
+                removeUserById();
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Input must be integer");
+            scanner.nextLine();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+    }
+    public void getAllUsers(){
+        String response = controller.getAllUsers();
+        System.out.println(response);
+    }
+    public void addNewUser(){
+        System.out.println("Enter name: ");
+        String name = scanner.next();
+        System.out.println("Enter surname: ");
+        String surname = scanner.next();
+        System.out.println("Create login: ");
+        String login = scanner.next();
+        System.out.println("Enter where user wants to go: ");
+        String wantTo = scanner.next();
+        System.out.println("Enter date when user wants to go: ");
+        LocalDate atDate = LocalDate.parse(scanner.next());
+        LocalDate regDate = LocalDate.now();
+        String response = controller.addUser(name, surname, login, regDate, wantTo, atDate);
+        System.out.println(response);
+    }
+    public void removeUserById(){
+        System.out.println("Enter id: ");
+        int id = scanner.nextInt();
+        String response = controller.removeUserById(id);
+        System.out.println(response);
+    }
+
 
 //    public boolean isAdmin(String login , String password) {
 //        boolean response = controller.isAdmin();

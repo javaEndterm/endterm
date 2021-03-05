@@ -6,6 +6,7 @@ public class Users {
     private int id;
     private String login;
     private String name;
+    private String surname;
     private Date date_of_reg;
     private String want_to;
     private Date At_date;
@@ -31,6 +32,12 @@ public class Users {
     public Date getDate_of_reg() {
         return date_of_reg;
     }
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+    public String getSurname() {
+        return surname;
+    }
     public void setDate_of_reg(Date date_of_reg) {
         this.date_of_reg = date_of_reg;
     }
@@ -47,18 +54,21 @@ public class Users {
         At_date = at_date;
     }
 
-    public Users(int id, String login, String name, Date date_of_reg, String want_to, Date at_date) {
+    public Users(int id, String name, String surname, String login, Date date_of_reg, String want_to, Date at_date) {
         setId(id);
-        setLogin(login);
         setName(name);
+        setSurname(surname);
+        setLogin(login);
         setDate_of_reg(date_of_reg);
         setWant_to(want_to);
         setAt_date(at_date);
     }
 
-    public Users(String login, String name, Date date_of_reg, String want_to, Date at_date) {
-        setLogin(login);
+    public Users(String login, String name, String surname, Date date_of_reg, String want_to, Date at_date) {
+
         setName(name);
+        setSurname(surname);
+        setLogin(login);
         setDate_of_reg(date_of_reg);
         setWant_to(want_to);
         setAt_date(at_date);
@@ -70,6 +80,7 @@ public class Users {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", name='" + name + '\'' +
+                ", name='" + surname + '\'' +
                 ", date_of_reg=" + date_of_reg +
                 ", want_to='" + want_to + '\'' +
                 ", At_date=" + At_date +
