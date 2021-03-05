@@ -56,7 +56,7 @@ public class AllRepositories implements IAllRepositories {
             ResultSet resPassword = statementPassword.getResultSet();
 
 
-            if (resLogin != null && resPassword != null) {
+            if (resLogin.next() == true && resPassword.next() == true) {
                 return true;
             } else {
                 return false;
