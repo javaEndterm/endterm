@@ -4,11 +4,13 @@ import com.company.entities.Users;
 import com.company.entities.Travel_places;
 import org.postgresql.util.PSQLException;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface IAllRepositories {
     boolean hasUser(String login, String password);
-
+    boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate);
 
 
 //    List<Front> getAllFront();

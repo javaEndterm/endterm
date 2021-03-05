@@ -5,6 +5,7 @@ import com.company.entities.*;
 import com.company.repositories.interfaces.IAllRepositories;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class AllControllers {
         return hasUser;
     }
 
+    public String isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
+        boolean isRegistered = repository.isRegistered(name, surname, login, regDate, wantTo, atDate);
+        return isRegistered==true ? "You have registered!" : "Registration is failed!";
+    }
 
 
 //    public String getAll() {
