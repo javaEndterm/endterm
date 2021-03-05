@@ -11,6 +11,8 @@ import java.util.List;
 public interface IAllRepositories {
     boolean hasUser(String login, String password);
     boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate);
+    boolean removeUser (int id);
+    List<Users> getAllUsers();
 
 
 //    List<Front> getAllFront();

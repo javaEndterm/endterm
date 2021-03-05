@@ -3,6 +3,7 @@ package com.company.repositories;
 import com.company.data.interfaces.IDB;
 import com.company.entities.Back;
 import com.company.entities.Front;
+import com.company.entities.Users;
 import com.company.repositories.interfaces.IAllRepositories;
 import org.postgresql.util.PSQLException;
 
@@ -154,6 +155,66 @@ public class AllRepositories implements IAllRepositories {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean removeUser(int id) {
+        Connection con = null;
+        try{
+            con = database.getConnection();
+            String sqlReg = "DELETE FROM users WHERE id = ?";
+            PreparedStatement statementReg = con.prepareStatement(sqlReg);
+            statementReg.setInt(1, id);
+            statementReg.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public List<Users> getAllUsers() {
+        Connection con = null;
+        try{
+            con = database.getConnection();
+            String sql = "SELECT * FROM users";
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+            List<Users> users = new LinkedList<>();
+            while (rs.next()){
+                Users user = new Users(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("login"),
+                        rs.getDate("date_of_reg"),
+                        rs.getString("want_to"),
+                        rs.getDate("at_date"));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return null;
     }
 
 

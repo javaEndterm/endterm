@@ -26,6 +26,19 @@ public class AllControllers {
         return isRegistered==true ? "You have registered!" : "Registration is failed!";
     }
 
+    public String addUser(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate){
+        boolean isAdded = repository.isRegistered(name, surname, login, regDate, wantTo, atDate);
+        return isAdded == true ? "User has been added!" : "User addition is failed!";
+    }
+    public String removeUserById(int id){
+        boolean isRemoved = repository.removeUser(id);
+        return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
+    }
+    public String getAllUsers(){
+        List<Users> users = repository.getAllUsers();
+        return users == null ? "Fail!" : users.toString();
+    }
+
 
 //    public String getAll() {
 //        List<Front> fronts = repository.getAllFront();
