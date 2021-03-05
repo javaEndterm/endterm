@@ -2,7 +2,7 @@ package com.company;
 
 import com.company.controllers.AllControllers;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -19,6 +19,24 @@ public class MyApplication {
             System.err.println("\nAdmin:\n    Login: Aika\n    Password: Aika12345\n    Login: Maks\n    Password: Maks12345\n----------\nUser: \n    Login: usertest\n    Password: usertest123");
             System.out.println("");
             System.out.println("Welcome to my application");
+            System.out.println("Select option: (1-2)");
+            System.out.println("1. Registration");
+            System.out.println("2. Login");
+            int option = scanner.nextInt();
+            if(option==1){
+                System.out.println("Enter name: ");
+                String name = scanner.next();
+                System.out.println("Enter surname: ");
+                String surname = scanner.next();
+                System.out.println("Create login: ");
+                String login = scanner.next();
+                System.out.println("Enter where you want to go: ");
+                String wantTo = scanner.next();
+                System.out.println("Enter date when you want to go: ");
+                LocalDate atDate = LocalDate.parse(scanner.next());
+                LocalDate regDate = LocalDate.now();
+                isRegistered(name, surname, login, regDate, wantTo, atDate);
+            }
             System.out.println("Enter login:");
             String login = scanner.nextLine();
             System.out.println("Enter password:");
@@ -59,6 +77,10 @@ public class MyApplication {
     public boolean hasUser(String login , String password) {
         boolean response = controller.hasUser(login, password);
         return response;
+    }
+    public void isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate){
+        String response = controller.isRegistered(name, surname, login, regDate, wantTo, atDate);
+        System.out.println(response);
     }
 
     public boolean isAdmin(String login , String password) {

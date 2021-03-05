@@ -7,6 +7,7 @@ import com.company.repositories.interfaces.IAllRepositories;
 import org.postgresql.util.PSQLException;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -126,6 +127,34 @@ public class AllRepositories implements IAllRepositories {
         return false;
     }
 
+    @Override
+    public boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
+        Connection con = null;
+        try {
+            con = database.getConnection();
+            String sqlReg = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement statementReg = con.prepareStatement(sqlReg);
+            statementReg.setString(1, name);
+            statementReg.setString(2,surname);
+            statementReg.setString(3,login);
+            statementReg.setDate(4, Date.valueOf(regDate));
+            statementReg.setString(5, wantTo);
+            statementReg.setDate(6, Date.valueOf(atDate));
+            statementReg.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
 
 
 //    @Override
