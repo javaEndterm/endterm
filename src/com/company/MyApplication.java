@@ -37,23 +37,26 @@ public class MyApplication {
                 LocalDate regDate = LocalDate.now();
                 isRegistered(name, surname, login, regDate, wantTo, atDate);
             }
-            System.out.println("Enter login:");
-            String login = scanner.nextLine();
-            System.out.println("Enter password:");
-            String password = scanner.nextLine();
-            if (hasUser(login, password) == true) {
-                System.out.println("hasUser");
-                //true == correct
+            if(option==2){
+                System.out.println("Enter login:");
+                String login = scanner.nextLine();
+                System.out.println("Enter password:");
+                String password = scanner.nextLine();
+                if (hasUser(login, password) == true) {
+                    System.out.println("hasUser");
+                    //true == correct
 //                if (isAdmin(login, password) == true) {
 //                    //Admin functions
 //                } else {
 //                    //User functions
 //                }
-            } else if (hasUser(login, password) == false) {
-                //false == isn't correct
-                System.err.println("Error!");
-                start();
+                } else if (hasUser(login, password) == false) {
+                    //false == isn't correct
+                    System.err.println("Error!");
+                    start();
+                }
             }
+
 //            if (login.equals("admin") && password.equals("admin12345")) {
 //                Director_start();
 //            } else if (login.equals("dev") && password.equals("dev12345")) {
