@@ -1,17 +1,21 @@
 package com.company.repositories.interfaces;
 
-import com.company.entities.Back;
-import com.company.entities.Front;
+import com.company.entities.Users;
+import com.company.entities.Travel_places;
 import org.postgresql.util.PSQLException;
 
 import java.util.List;
 
 public interface IAllRepositories {
-    List<Front> getAllFront();
-    List<Back> getAllBack();
-    boolean addFront(Front front);
-    boolean addBack(Back back);
-    boolean deleteFront(int id) throws PSQLException;
-    boolean deleteBack(int id) throws PSQLException;
-    int getSalary();
+    boolean hasUser(String login, String password);
+
+
+
+//    List<Front> getAllFront();
+//    List<Back> getAllBack();
+//    boolean addFront(Front front);
+//    boolean addBack(Back back);
+//    boolean deleteFront(int id) throws PSQLException;
+//    boolean deleteBack(int id) throws PSQLException;
+//    int getSalary();
 }
