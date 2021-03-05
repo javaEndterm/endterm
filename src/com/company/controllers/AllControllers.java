@@ -20,6 +20,11 @@ public class AllControllers {
         return hasUser;
     }
 
+    public boolean isAdmin(String login, String password) {
+        boolean isAdmin = repository.isAdmin(login, password);
+        return isAdmin;
+    }
+
 
 
 //    public String getAll() {

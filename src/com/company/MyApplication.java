@@ -16,7 +16,7 @@ public class MyApplication {
 
     public void start() {
         while (true) {
-//            System.err.println("\nAdmin:\n    Login: admin\n    Password: admin12345\n----------\nDeveloper: \n    Login: dev\n    Password: dev12345");
+            System.err.println("\nAdmin:\n    Login: Aika\n    Password: Aika12345\n    Login: Maks\n    Password: Maks12345\n----------\nUser: \n    Login: usertest\n    Password: usertest123");
             System.out.println("");
             System.out.println("Welcome to my application");
             System.out.println("Enter login:");
@@ -26,11 +26,13 @@ public class MyApplication {
             if (hasUser(login, password) == true) {
                 System.out.println("hasUser");
                 //true == correct
-//                if (isAdmin(login, password) == true) {
-//                    //Admin functions
-//                } else {
-//                    //User functions
-//                }
+                if (isAdmin(login, password) == true) {
+                    //Admin functions
+                    System.out.println("Admin");
+                } else {
+                    //User functions
+                    System.out.println("not Admin");
+                }
             } else if (hasUser(login, password) == false) {
                 //false == isn't correct
                 System.err.println("Error!");
@@ -55,14 +57,14 @@ public class MyApplication {
     }
 
     public boolean hasUser(String login , String password) {
-                boolean response = controller.hasUser(login, password);
-                return response;
+        boolean response = controller.hasUser(login, password);
+        return response;
     }
 
-//    public boolean isAdmin(String login , String password) {
-//        boolean response = controller.isAdmin();
-//        return response;
-//    }
+    public boolean isAdmin(String login , String password) {
+        boolean response = controller.isAdmin(login, password);
+        return response;
+    }
 
 //    public void Director_start () {
 //        while (true) {

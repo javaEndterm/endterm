@@ -22,70 +22,96 @@ public class AllRepositories implements IAllRepositories {
         try {
             connection = database.getConnection();
 
-
-//            String sql = "INSERT INTO \"Front-end_dev\"(\"First_name\", \"Age\", \"Started_working\", \"Level\", \"Salary\")\n" +
-//                    "VALUES(?, ?, ?, ?, ?)";
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            statement.setString(1, front.getF_name());
-//            statement.setInt(2, front.getAge());
-//            statement.setDate(3, front.getStarted_working());
-//            statement.setInt(4, front.getLevel());
-//            statement.setInt(5, front.getSalary());
-//            statement.execute();
-//            return true;
-
-
             //Login
             String sqlLogin = "SELECT \"Login\" FROM \"LogIn\" where \"Login\" = ? and \"Password\" = ?";
             PreparedStatement statementLogin = connection.prepareStatement(sqlLogin);
             statementLogin.setString(1, login);
             statementLogin.setString(2, password);
             statementLogin.execute();
-//            Statement statementLogin = connection.createStatement();
 
             ResultSet resLogin = statementLogin.getResultSet();
 
             //Password
-            String sqlPassword = "SELECT \"Password\" FROM \"LogIn\" where \"Login\" = ? and \"Password\" = ?";
+            String sqlPassword = "SELECT \"Password\" FROM \"LogIn\" WHERE \"Login\" = ? AND \"Password\" = ?";
             PreparedStatement statementPassword = connection.prepareStatement(sqlPassword);
             statementPassword.setString(1, login);
             statementPassword.setString(2, password);
             statementPassword.execute();
-            //            Statement statementPassword = connection.createStatement();
 
             ResultSet resPassword = statementPassword.getResultSet();
-
 
             if (resLogin.next() == true && resPassword.next() == true) {
                 return true;
             } else {
                 return false;
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
 
-//            ResultSet compareLogin = statementLogin.getResultSet()
+    public boolean isAdmin(String login, String password) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
 
-//            ResultSet res = statement.getResultSet();
-//            int sumFront = 0;
-//            int sumBack = 0;
-//            int allSum = 0;
-//
-//            if (res.next()) {
-//                sumFront = res.getInt("sum");
-//            }
-//
-//            sql = "SELECT SUM (\"Salary\") FROM \"Back-end_dev\"";
-//            statement = connection.createStatement();
-//
-//            result = statement.executeQuery(sql);
-//
-//            res = statement.getResultSet();
-//            if (res.next()) {
-//                sumBack = res.getInt("sum");
-//            }
-//
-//            allSum = sumFront + sumBack;
-//            return allSum;
 
+            String sql = "SELECT \"ID\" FROM \"LogIn\" WHERE \"Login\" = ? AND \"Password\" = ?";
+
+
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, login);
+            statement.setString(2, password);
+//            statement.setString(1, front.getF_name());
+//            statement.setInt(2, front.getAge());
+//            statement.setDate(3, front.getStarted_working());
+//            statement.setInt(4, front.getLevel());
+//            statement.setInt(5, front.getSalary());
+//            statement.execute();
+
+
+
+            Statement statementID = connection.createStatement();
+
+            ResultSet result = statementID.executeQuery(sql);
+            int id;
+            while (result.next()) {
+                id = result.getInt("ID");
+                if (id == 1 || id == 2) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+
+//            //Login
+//            String sqlLogin = "SELECT \"ID\" FROM \"LogIn\" where \"Login\" = ? and \"Password\" = ?";
+//            PreparedStatement statementLogin = connection.prepareStatement(sqlLogin);
+//            statementLogin.setString(1, login);
+//            statementLogin.setString(2, password);
+//            statementLogin.execute();
+//
+//            ResultSet resLogin = statementLogin.getResultSet();
+//
+//            //Password
+//            String sqlPassword = "SELECT \"ID\" FROM \"LogIn\" where \"Login\" = ? and \"Password\" = ?";
+//            PreparedStatement statementPassword = connection.prepareStatement(sqlPassword);
+//            statementPassword.setString(1, login);
+//            statementPassword.setString(2, password);
+//            statementPassword.execute();
+//
+//            ResultSet resPassword = statementPassword.getResultSet();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
