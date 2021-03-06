@@ -86,16 +86,16 @@ public class MyApplication {
     }
 
     public boolean hasUser(String login , String password) {
-                boolean response = controller.hasUser(login, password);
-                return response;
+        boolean response = controller.hasUser(login, password);
+        return response;
     }
     public void isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate){
         String response = controller.isRegistered(name, surname, login, regDate, wantTo, atDate);
         System.out.println(response);
     }
     public boolean isAdmin(String login, String password){
-     boolean response = controller.hasUser(login, password);
-     return response;
+        boolean response = controller.hasUser(login, password);
+        return response;
     }
     public void admin(){
         System.out.println("Select option: (1-3)");
@@ -146,6 +146,22 @@ public class MyApplication {
         int id = scanner.nextInt();
         String response = controller.removeUserById(id);
         System.out.println(response);
+    }
+
+    public void addOrder() {
+        System.out.println("Enter where from: ");
+        String city1 = scanner.next();
+        System.out.println("Enter from to: ");
+        String city2 = scanner.next();
+        System.out.println("how many days: ");
+        int days = scanner.nextInt();
+        boolean response = controller.addOrder(city1, city2, days);
+        if (response == true) {
+            System.out.println("Added!");
+        } else {
+            System.out.println("Not added!");
+        }
+//        System.out.println(response);
     }
 
 

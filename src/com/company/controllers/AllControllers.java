@@ -39,6 +39,10 @@ public class AllControllers {
         return users == null ? "Fail!" : users.toString();
     }
 
+    public boolean addOrder(String city1, String city2, int days) {
+        boolean added = repository.addOrder(city1, city2, days);
+        return added;
+    }
 
 //    public String getAll() {
 //        List<Front> fronts = repository.getAllFront();

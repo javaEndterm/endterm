@@ -15,9 +15,11 @@ public class Order extends Users{
     public Order(String login, String name, String surname, Date date_of_reg, String want_to, Date at_date) {
         super(login, name, surname, date_of_reg, want_to, at_date);
     }
-    public int calculatePrice(String whereFrom, String whereTo, int totalDay){
+    public int calculatePrice(String city1, String city2, int totalDay){
         int price = 0;
-        //some formula
+
+        price =
+
         return price;
     }
 

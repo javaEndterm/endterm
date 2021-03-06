@@ -1,11 +1,8 @@
 package com.company.repositories.interfaces;
 
 import com.company.entities.Users;
-import com.company.entities.Travel_places;
-import org.postgresql.util.PSQLException;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface IAllRepositories {
@@ -13,6 +10,7 @@ public interface IAllRepositories {
     boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate);
     boolean removeUser (int id);
     List<Users> getAllUsers();
+    boolean addOrder(String city1, String city2, int days);
 
 
 //    List<Front> getAllFront();

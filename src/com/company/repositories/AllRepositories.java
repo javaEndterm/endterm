@@ -5,7 +5,6 @@ import com.company.entities.Back;
 import com.company.entities.Front;
 import com.company.entities.Users;
 import com.company.repositories.interfaces.IAllRepositories;
-import org.postgresql.util.PSQLException;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -215,6 +214,35 @@ public class AllRepositories implements IAllRepositories {
             }
         }
         return null;
+    }
+
+    @Override
+    boolean addOrder(String city1, String city2, int days) {
+        Connection con = null;
+        try {
+            con = database.getConnection();
+            String sqlReg = "INSERT INTO Orders VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement statementReg = con.prepareStatement(sqlReg);
+            statementReg.setString(1, city1);
+            statementReg.setString(2,city2);
+            statementReg.setString(3,);
+            statementReg.setDate(4, Date.valueOf(regDate));
+            statementReg.setString(5, wantTo);
+            statementReg.setDate(6, Date.valueOf(atDate));
+            statementReg.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
     }
 
 
