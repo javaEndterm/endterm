@@ -58,7 +58,7 @@ public class LogIn {
 
     @Override
     public String toString() {
-        return "LogIn{" +
+        return '\n' + "LogIn{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", login='" + login + '\'' +

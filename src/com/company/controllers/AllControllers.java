@@ -4,6 +4,7 @@ package com.company.controllers;
 import com.company.entities.*;
 import com.company.repositories.interfaces.IAllRepositories;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -35,6 +36,15 @@ public class AllControllers {
     public String getAllUsers(){
         List<LogIn> users = repository.getAllUsers();
         return users == null ? "Fail!" : users.toString();
+    }
+
+    public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
+        boolean isAdded = repository.addPlace(name, starting_date, reiteration, price);
+        return isAdded;
+    }
+    public String removePlaceById(int id){
+        boolean isRemoved = repository.removePlace(id);
+        return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
     }
 
 //    public boolean addOrder(String city1, String city2, int days) {

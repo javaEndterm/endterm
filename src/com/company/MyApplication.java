@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.controllers.AllControllers;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -15,9 +16,9 @@ public class MyApplication {
     }
 
     public void start() {
+        System.err.println("(Aika <-> Aika123, Maks <-> Maks123), usertest <-> usertest123");
         while (true) {
-//            System.err.println("\nAdmin:\n    Login: admin\n    Password: admin12345\n----------\nDeveloper: \n    Login: dev\n    Password: dev12345");
-            System.out.println("");
+            System.out.println("< - - - New process... - - - >");
             System.out.println("Welcome to my application");
             System.out.println("Select option: (1-3)");
             System.out.println("1. Registration");
@@ -35,12 +36,11 @@ public class MyApplication {
                 } else {
                     addNewUser(name, login, password);
                 }
-            }
-            if(option==2){
+            } else if(option==2){
                 System.out.println("Enter login:");
-                String login = scanner.nextLine();
+                String login = scanner.next();
                 System.out.println("Enter password:");
-                String password = scanner.nextLine();
+                String password = scanner.next();
                 if (hasUser(login, password) == true) {
                     if (isAdmin(login, password) == true) {
                         System.out.println("Welcome, admin!");
@@ -54,6 +54,9 @@ public class MyApplication {
                     System.err.println("Error!");
                     start();
                 }
+            } else {
+                System.err.println("Error!");
+                start();
             }
         }
     }
@@ -62,20 +65,23 @@ public class MyApplication {
         boolean response = controller.hasUser(login, password);
         return response;
     }
-//    public void isRegistered(String name, String login){
-//        String response = controller.isRegistered(name, login);
-//        System.out.println(response);
-//    }
     public boolean isAdmin(String login, String password){
         boolean response = controller.hasUser(login, password);
         return response;
     }
     public void admin(){
-        System.out.println("Select option: (1-3)");
-        System.out.println("1. Get all users");
-        System.out.println("2. Add new user");
-        System.out.println("3. Remove user by ID");
         while (true) {
+            System.out.println("< - - - New process... - - - >");
+            System.out.println("Select option: (1-3)");
+            System.out.println("1. Get all users");
+            //////////////////////////////////////////////////////////////////////
+//            GET ALL PlACES
+            //////////////////////////////////////////////////////////////////////
+            System.out.println("2. Add new user");
+            System.out.println("3. Add new place");
+            System.out.println("4. Remove user by ID");
+            System.out.println("5. Remove place by ID");
+            System.out.println("0. Exit from admin");
             int option = scanner.nextInt();
             if(option==1){
                 getAllUsers();
@@ -86,11 +92,21 @@ public class MyApplication {
                 String login = scanner.next();
                 System.out.println("Enter password");
                 String password = scanner.next();
-                addNewUser(name, login, password);
+                if (hasUser(login, password) == true) {
+                    System.err.println("This account already exists!");
+                } else {
+                    addNewUser(name, login, password);
+                }
             } else if(option==3){
+                addPlace();
+            } else if(option==4){
                 removeUserById();
+            } else if(option==5){
+                removePlaceById();
+            } else if(option==0){
+                start();
             } else {
-                System.out.println("This option isn't exists. Please, enter again:");
+                System.err.println("This option isn't exists. Please, enter again:");
             }
         }
     }
@@ -104,7 +120,7 @@ public class MyApplication {
         if (response == true ) {
             System.out.println("Registered!");
         } else {
-            System.out.println("Didn't registered!");
+            System.err.println("Didn't registered!");
         }
     }
     public void removeUserById(){
@@ -113,14 +129,30 @@ public class MyApplication {
         String response = controller.removeUserById(id);
         System.out.println(response);
     }
+    public void addPlace() {
+        System.out.println("Name:");
+        String name = scanner.next();
+        System.out.println("Starting date: ");
+        Date starting_date = Date.valueOf(scanner.next());
+        System.out.println("Reiteration (every...)");
+        String reiteration = scanner.next();
+        System.out.println("Price per day");
+        int price = scanner.nextInt();
+        boolean response = controller.addPlace(name, starting_date, reiteration, price);
+        if (response == true ) {
+            System.out.println("Added!");
+        } else {
+            System.err.println("Didn't Add!");
+        }
+    }
+    public void removePlaceById(){
+        System.out.println("Enter id: ");
+        int id = scanner.nextInt();
+        String response = controller.removePlaceById(id);
+        System.out.println(response);
+    }
 
 ////////////////////////////////////////////////////////////////////
-//    public boolean addPlaceTravel() {
-//
-//    }
-
-
-
 //    public void user() {
 //
 //    }

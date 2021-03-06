@@ -58,31 +58,21 @@ public class AllRepositories implements IAllRepositories {
         return false;
     }
 
+    @Override
     public boolean isAdmin(String login, String password) {
         Connection connection = null;
         try {
             connection = database.getConnection();
 
-
             String sql = "SELECT \"ID\" FROM \"LogIn\" WHERE \"Login\" = ? AND \"Password\" = ?";
-
-
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, login);
             statement.setString(2, password);
-//            statement.setString(1, front.getF_name());
-//            statement.setInt(2, front.getAge());
-//            statement.setDate(3, front.getStarted_working());
-//            statement.setInt(4, front.getLevel());
-//            statement.setInt(5, front.getSalary());
-//            statement.execute();
-
-
 
             Statement statementID = connection.createStatement();
-
             ResultSet result = statementID.executeQuery(sql);
+
             int id;
             while (result.next()) {
                 id = result.getInt("ID");
@@ -92,25 +82,6 @@ public class AllRepositories implements IAllRepositories {
                     return false;
                 }
             }
-
-
-//            //Login
-//            String sqlLogin = "SELECT \"ID\" FROM \"LogIn\" where \"Login\" = ? and \"Password\" = ?";
-//            PreparedStatement statementLogin = connection.prepareStatement(sqlLogin);
-//            statementLogin.setString(1, login);
-//            statementLogin.setString(2, password);
-//            statementLogin.execute();
-//
-//            ResultSet resLogin = statementLogin.getResultSet();
-//
-//            //Password
-//            String sqlPassword = "SELECT \"ID\" FROM \"LogIn\" where \"Login\" = ? and \"Password\" = ?";
-//            PreparedStatement statementPassword = connection.prepareStatement(sqlPassword);
-//            statementPassword.setString(1, login);
-//            statementPassword.setString(2, password);
-//            statementPassword.execute();
-//
-//            ResultSet resPassword = statementPassword.getResultSet();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -125,57 +96,26 @@ public class AllRepositories implements IAllRepositories {
         return false;
     }
 
-//    @Override
-//    public boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
-//        Connection con = null;
-//        try {
-//            con = database.getConnection();
-//            String sqlReg = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-//            PreparedStatement statementReg = con.prepareStatement(sqlReg);
-//            statementReg.setString(1, name);
-//            statementReg.setString(2,surname);
-//            statementReg.setString(3,login);
-//            statementReg.setDate(4, Date.valueOf(regDate));
-//            statementReg.setString(5, wantTo);
-//            statementReg.setDate(6, Date.valueOf(atDate));
-//            statementReg.execute();
-//            return true;
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                con.close();
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
-//        }
-//        return false;
-//    }
-
     @Override
     public boolean removeUser(int id) {
-        Connection con = null;
-        try{
-            con = database.getConnection();
-            String sqlReg = "DELETE FROM LogIn WHERE ID = ?";
-            PreparedStatement statementReg = con.prepareStatement(sqlReg);
-            statementReg.setInt(1, id);
-            statementReg.execute();
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "DELETE FROM \"LogIn\" WHERE \"ID\"=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.execute();
             return true;
-        } catch (SQLException throwables) {
+        } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } finally {
             try {
-                con.close();
+                connection.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
-
         return false;
     }
 
@@ -208,21 +148,23 @@ public class AllRepositories implements IAllRepositories {
 
     @Override
     public List<LogIn> getAllUsers() {
-        Connection con = null;
-        try{
-            con = database.getConnection();
-            String sql = "SELECT * FROM LogIn";
-            Statement st = con.createStatement();
 
-            ResultSet rs = st.executeQuery(sql);
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "SELECT * FROM \"LogIn\"";
+            Statement statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery(sql);
             List<LogIn> logins = new LinkedList<>();
-            while (rs.next()) {
+            while (result.next()) {
                 LogIn login = new LogIn(
-                        rs.getInt("ID"),
-                        rs.getString("Name"),
-                        rs.getString("Login"),
-                        rs.getString("Password"),
-                        rs.getDate("Reg_date")
+                        result.getInt("ID"),
+                        result.getString("Name"),
+                        result.getString("Login"),
+                        result.getString("Password"),
+                        result.getDate("Reg_date")
                 );
                 logins.add(login);
             }
@@ -233,7 +175,7 @@ public class AllRepositories implements IAllRepositories {
             e.printStackTrace();
         } finally {
             try {
-                con.close();
+                connection.close();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -241,6 +183,55 @@ public class AllRepositories implements IAllRepositories {
         return null;
     }
 
+    @Override
+    public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "INSERT INTO \"Travel_places\"(\"Name\", \"Starting_date\", \"Reiteration_every...\", \"Price_per_day\") VALUES(?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setDate(2, starting_date);
+            statement.setString(3, reiteration);
+            statement.setInt(4, price);
+            statement.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean removePlace(int id) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "DELETE FROM \"Travel_places\" WHERE \"ID\"=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.execute();
+            return true;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
 //    @Override
 //    boolean addOrder(String city1, String city2, int days) {
 //        Connection con = null;
