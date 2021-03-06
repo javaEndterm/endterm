@@ -1,11 +1,8 @@
 package com.company;
 
 import com.company.controllers.AllControllers;
-import com.company.entities.Users;
 
 import java.time.LocalDate;
-import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -25,22 +22,19 @@ public class MyApplication {
             System.out.println("Select option: (1-3)");
             System.out.println("1. Registration");
             System.out.println("2. Login");
-            System.out.println("3. For admin");
             int option = scanner.nextInt();
             if(option==1){
                 System.out.println("Enter name: ");
                 String name = scanner.next();
-                System.out.println("Enter surname: ");
-                String surname = scanner.next();
                 System.out.println("Create login: ");
                 String login = scanner.next();
-                System.out.println("Enter where you want to go: ");
-                String wantTo = scanner.next();
-                System.out.println("Enter date when you want to go: ");
-                LocalDate atDate = LocalDate.parse(scanner.next());
-                LocalDate regDate = LocalDate.now();
-                isRegistered(name, surname, login, regDate, wantTo, atDate);
-                start();
+                System.out.println("Enter password");
+                String password = scanner.next();
+                if (hasUser(login, password) == true) {
+                    System.err.println("This account already exists!");
+                } else {
+                    addNewUser(name, login, password);
+                }
             }
             if(option==2){
                 System.out.println("Enter login:");
@@ -48,40 +42,19 @@ public class MyApplication {
                 System.out.println("Enter password:");
                 String password = scanner.nextLine();
                 if (hasUser(login, password) == true) {
-                    System.out.println("hasUser");
-                    //true == correct
                     if (isAdmin(login, password) == true) {
                         System.out.println("Welcome, admin!");
                         admin();
+                    } else if (isAdmin(login, password) == false) {
+                        ////////////////////////////////////////////////////////////
+//                        user();
+                        ////////////////////////////////////////////////////////////
                     }
-//                } else {
-//                    //User functions
-//                }
                 } else if (hasUser(login, password) == false) {
-                    //false == isn't correct
                     System.err.println("Error!");
                     start();
                 }
-
-
             }
-
-
-//            if (login.equals("admin") && password.equals("admin12345")) {
-//                Director_start();
-//            } else if (login.equals("dev") && password.equals("dev12345")) {
-//                System.out.println("1. Front-end \n2. Back-end");
-//                int choice = scanner.nextInt();
-//                if (choice == 1) {
-//                    Front_start();
-//                } else if (choice == 2) {
-//                    Back_start();
-//                } else {
-//                    System.out.println("Error");
-//                }
-//            } else {
-//                System.out.println("Error");
-//            }
         }
     }
 
@@ -89,10 +62,10 @@ public class MyApplication {
         boolean response = controller.hasUser(login, password);
         return response;
     }
-    public void isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate){
-        String response = controller.isRegistered(name, surname, login, regDate, wantTo, atDate);
-        System.out.println(response);
-    }
+//    public void isRegistered(String name, String login){
+//        String response = controller.isRegistered(name, login);
+//        System.out.println(response);
+//    }
     public boolean isAdmin(String login, String password){
         boolean response = controller.hasUser(login, password);
         return response;
@@ -102,44 +75,37 @@ public class MyApplication {
         System.out.println("1. Get all users");
         System.out.println("2. Add new user");
         System.out.println("3. Remove user by ID");
-        try {
+        while (true) {
             int option = scanner.nextInt();
             if(option==1){
                 getAllUsers();
-            }
-            if(option==2){
-                addNewUser();
-            }
-            if(option==3){
+            } else if(option==2){
+                System.out.println("Enter name: ");
+                String name = scanner.next();
+                System.out.println("Create login: ");
+                String login = scanner.next();
+                System.out.println("Enter password");
+                String password = scanner.next();
+                addNewUser(name, login, password);
+            } else if(option==3){
                 removeUserById();
+            } else {
+                System.out.println("This option isn't exists. Please, enter again:");
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Input must be integer");
-            scanner.nextLine();
-        } catch (Exception e){
-            System.out.println(e.getMessage());
         }
-
-
     }
     public void getAllUsers(){
         String response = controller.getAllUsers();
         System.out.println(response);
     }
-    public void addNewUser(){
-        System.out.println("Enter name: ");
-        String name = scanner.next();
-        System.out.println("Enter surname: ");
-        String surname = scanner.next();
-        System.out.println("Create login: ");
-        String login = scanner.next();
-        System.out.println("Enter where user wants to go: ");
-        String wantTo = scanner.next();
-        System.out.println("Enter date when user wants to go: ");
-        LocalDate atDate = LocalDate.parse(scanner.next());
+    public void addNewUser(String name, String login, String password){
         LocalDate regDate = LocalDate.now();
-        String response = controller.addUser(name, surname, login, regDate, wantTo, atDate);
-        System.out.println(response);
+        boolean response = controller.addUser(name, login, password, regDate);
+        if (response == true ) {
+            System.out.println("Registered!");
+        } else {
+            System.out.println("Didn't registered!");
+        }
     }
     public void removeUserById(){
         System.out.println("Enter id: ");
@@ -148,21 +114,38 @@ public class MyApplication {
         System.out.println(response);
     }
 
-    public void addOrder() {
-        System.out.println("Enter where from: ");
-        String city1 = scanner.next();
-        System.out.println("Enter from to: ");
-        String city2 = scanner.next();
-        System.out.println("how many days: ");
-        int days = scanner.nextInt();
-        boolean response = controller.addOrder(city1, city2, days);
-        if (response == true) {
-            System.out.println("Added!");
-        } else {
-            System.out.println("Not added!");
-        }
-//        System.out.println(response);
-    }
+////////////////////////////////////////////////////////////////////
+//    public boolean addPlaceTravel() {
+//
+//    }
+
+
+
+//    public void user() {
+//
+//    }
+////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+//    public void addOrder() {
+//        System.out.println("Enter where from: ");
+//        String city1 = scanner.next();
+//        System.out.println("Enter from to: ");
+//        String city2 = scanner.next();
+//        System.out.println("how many days: ");
+//        int days = scanner.nextInt();
+//        boolean response = controller.addOrder(city1, city2, days);
+//        if (response == true) {
+//            System.out.println("Added!");
+//        } else {
+//            System.out.println("Not added!");
+//        }
+////        System.out.println(response);
+//    }
 
 
 //    public boolean isAdmin(String login , String password) {

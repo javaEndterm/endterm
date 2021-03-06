@@ -1,16 +1,17 @@
 package com.company.repositories.interfaces;
 
-import com.company.entities.Users;
+import com.company.entities.LogIn;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IAllRepositories {
     boolean hasUser(String login, String password);
-    boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate);
+//    boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate);
     boolean removeUser (int id);
-    List<Users> getAllUsers();
-    boolean addOrder(String city1, String city2, int days);
+    List<LogIn> getAllUsers();
+    boolean addUser(String name, String login, String password, LocalDate regDate);
+//    boolean addOrder(String city1, String city2, int days);
 
 
 //    List<Front> getAllFront();

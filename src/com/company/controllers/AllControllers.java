@@ -4,9 +4,7 @@ package com.company.controllers;
 import com.company.entities.*;
 import com.company.repositories.interfaces.IAllRepositories;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AllControllers {
@@ -21,28 +19,28 @@ public class AllControllers {
         return hasUser;
     }
 
-    public String isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
-        boolean isRegistered = repository.isRegistered(name, surname, login, regDate, wantTo, atDate);
-        return isRegistered==true ? "You have registered!" : "Registration is failed!";
-    }
+//    public String isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
+//        boolean isRegistered = repository.isRegistered(name, surname, login, regDate, wantTo, atDate);
+//        return isRegistered==true ? "You have registered!" : "Registration is failed!";
+//    }
 
-    public String addUser(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate){
-        boolean isAdded = repository.isRegistered(name, surname, login, regDate, wantTo, atDate);
-        return isAdded == true ? "User has been added!" : "User addition is failed!";
+    public boolean addUser(String name, String login, String password, LocalDate regDate){
+        boolean isAdded = repository.addUser(name, login, password, regDate);
+        return isAdded;
     }
     public String removeUserById(int id){
         boolean isRemoved = repository.removeUser(id);
         return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
     }
     public String getAllUsers(){
-        List<Users> users = repository.getAllUsers();
+        List<LogIn> users = repository.getAllUsers();
         return users == null ? "Fail!" : users.toString();
     }
 
-    public boolean addOrder(String city1, String city2, int days) {
-        boolean added = repository.addOrder(city1, city2, days);
-        return added;
-    }
+//    public boolean addOrder(String city1, String city2, int days) {
+//        boolean added = repository.addOrder(city1, city2, days);
+//        return added;
+//    }
 
 //    public String getAll() {
 //        List<Front> fronts = repository.getAllFront();

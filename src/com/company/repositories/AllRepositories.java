@@ -1,9 +1,7 @@
 package com.company.repositories;
 
 import com.company.data.interfaces.IDB;
-import com.company.entities.Back;
-import com.company.entities.Front;
-import com.company.entities.Users;
+import com.company.entities.LogIn;
 import com.company.repositories.interfaces.IAllRepositories;
 
 import java.sql.*;
@@ -41,7 +39,7 @@ public class AllRepositories implements IAllRepositories {
 
             ResultSet resPassword = statementPassword.getResultSet();
 
-            if (resLogin.next() == true && resPassword.next() == true) {
+            if ((resLogin.next() == true && resPassword.next() == true) || (resLogin.next() == true)) {
                 return true;
             } else {
                 return false;
@@ -127,41 +125,41 @@ public class AllRepositories implements IAllRepositories {
         return false;
     }
 
-    @Override
-    public boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
-        Connection con = null;
-        try {
-            con = database.getConnection();
-            String sqlReg = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement statementReg = con.prepareStatement(sqlReg);
-            statementReg.setString(1, name);
-            statementReg.setString(2,surname);
-            statementReg.setString(3,login);
-            statementReg.setDate(4, Date.valueOf(regDate));
-            statementReg.setString(5, wantTo);
-            statementReg.setDate(6, Date.valueOf(atDate));
-            statementReg.execute();
-            return true;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return false;
-    }
+//    @Override
+//    public boolean isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
+//        Connection con = null;
+//        try {
+//            con = database.getConnection();
+//            String sqlReg = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
+//            PreparedStatement statementReg = con.prepareStatement(sqlReg);
+//            statementReg.setString(1, name);
+//            statementReg.setString(2,surname);
+//            statementReg.setString(3,login);
+//            statementReg.setDate(4, Date.valueOf(regDate));
+//            statementReg.setString(5, wantTo);
+//            statementReg.setDate(6, Date.valueOf(atDate));
+//            statementReg.execute();
+//            return true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                con.close();
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     public boolean removeUser(int id) {
         Connection con = null;
         try{
             con = database.getConnection();
-            String sqlReg = "DELETE FROM users WHERE id = ?";
+            String sqlReg = "DELETE FROM LogIn WHERE ID = ?";
             PreparedStatement statementReg = con.prepareStatement(sqlReg);
             statementReg.setInt(1, id);
             statementReg.execute();
@@ -182,54 +180,17 @@ public class AllRepositories implements IAllRepositories {
     }
 
     @Override
-    public List<Users> getAllUsers() {
-        Connection con = null;
-        try{
-            con = database.getConnection();
-            String sql = "SELECT * FROM users";
-            Statement st = con.createStatement();
-
-            ResultSet rs = st.executeQuery(sql);
-            List<Users> users = new LinkedList<>();
-            while (rs.next()){
-                Users user = new Users(rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getString("login"),
-                        rs.getDate("date_of_reg"),
-                        rs.getString("want_to"),
-                        rs.getDate("at_date"));
-                users.add(user);
-            }
-            return users;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                con.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    boolean addOrder(String city1, String city2, int days) {
+    public boolean addUser(String name, String login, String password, LocalDate regDate) {
         Connection con = null;
         try {
             con = database.getConnection();
-            String sqlReg = "INSERT INTO Orders VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement statementReg = con.prepareStatement(sqlReg);
-            statementReg.setString(1, city1);
-            statementReg.setString(2,city2);
-            statementReg.setString(3,);
-            statementReg.setDate(4, Date.valueOf(regDate));
-            statementReg.setString(5, wantTo);
-            statementReg.setDate(6, Date.valueOf(atDate));
-            statementReg.execute();
+            String sql = "INSERT INTO \"LogIn\"(\"Name\", \"Login\", \"Password\", \"Reg_date\") VALUES(?, ?, ?, ?)";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, name);
+            statement.setString(2, login);
+            statement.setString(3, password);
+            statement.setDate(4, Date.valueOf(regDate));
+            statement.execute();
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -244,6 +205,70 @@ public class AllRepositories implements IAllRepositories {
         }
         return false;
     }
+
+    @Override
+    public List<LogIn> getAllUsers() {
+        Connection con = null;
+        try{
+            con = database.getConnection();
+            String sql = "SELECT * FROM LogIn";
+            Statement st = con.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+            List<LogIn> logins = new LinkedList<>();
+            while (rs.next()) {
+                LogIn login = new LogIn(
+                        rs.getInt("ID"),
+                        rs.getString("Name"),
+                        rs.getString("Login"),
+                        rs.getString("Password"),
+                        rs.getDate("Reg_date")
+                );
+                logins.add(login);
+            }
+            return logins;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+//    @Override
+//    boolean addOrder(String city1, String city2, int days) {
+//        Connection con = null;
+//        try {
+//            con = database.getConnection();
+//            String sqlReg = "INSERT INTO Orders VALUES (?, ?, ?, ?, ?, ?)";
+//            PreparedStatement statementReg = con.prepareStatement(sqlReg);
+//            statementReg.setString(1, city1);
+//            statementReg.setString(2,city2);
+//            statementReg.setString(3,);
+//            statementReg.setDate(4, Date.valueOf(regDate));
+//            statementReg.setString(5, wantTo);
+//            statementReg.setDate(6, Date.valueOf(atDate));
+//            statementReg.execute();
+//            return true;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                con.close();
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//        }
+//        return false;
+//    }
 
 
 //    @Override
