@@ -1,5 +1,7 @@
 package com.company.entities;
 
+import java.sql.Date;
+
 public class Travel_places {
     private int id;
     private String name;

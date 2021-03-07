@@ -2,6 +2,7 @@ package com.company.repositories.interfaces;
 
 import com.company.entities.LogIn;
 import com.company.entities.Order;
+import com.company.entities.Travel_places;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -20,4 +21,5 @@ public interface IAllRepositories {
     List<Order> getAllOrders();
     List<Order> getOrdersForUserByLogin(String login);
     boolean isRemovedOrder(String login, String whereTo, String whereFrom);
+    List<Travel_places> getAllPlaces();
 }

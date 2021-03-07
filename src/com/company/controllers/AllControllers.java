@@ -37,7 +37,6 @@ public class AllControllers {
         List<LogIn> users = repository.getAllUsers();
         return users == null ? "Fail!" : users.toString();
     }
-
     public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
         boolean isAdded = repository.addPlace(name, starting_date, reiteration, price);
         return isAdded;
@@ -61,6 +60,10 @@ public class AllControllers {
     public String isRemoved(String login, String whereTo, String whereFrom){
         boolean isRemoved = repository.isRemovedOrder(login, whereTo, whereFrom);
         return isRemoved == true ? "Order is removed" : "Order deletion is failed!";
+    }
+    public String getAllPlaces(){
+        List<Travel_places> travelPlaces = repository.getAllPlaces();
+        return travelPlaces == null ? "Not found!" : travelPlaces.toString();
     }
 
 //    public boolean addOrder(String city1, String city2, int days) {

@@ -72,20 +72,23 @@ public class MyApplication {
     public void admin(){
         while (true) {
             System.out.println("< - - - New process... - - - >");
-            System.out.println("Select option: (1-3)");
+            System.out.println("Select option: (1-6)");
             System.out.println("1. Get all users");
+            System.out.println("2. Get all places");
             //////////////////////////////////////////////////////////////////////
 //            GET ALL PlACES
             //////////////////////////////////////////////////////////////////////
-            System.out.println("2. Add new user");
-            System.out.println("3. Add new place");
-            System.out.println("4. Remove user by ID");
-            System.out.println("5. Remove place by ID");
+            System.out.println("3. Add new user");
+            System.out.println("4. Add new place");
+            System.out.println("5. Remove user by ID");
+            System.out.println("6. Remove place by ID");
             System.out.println("0. Exit from admin");
             int option = scanner.nextInt();
             if(option==1){
                 getAllUsers();
             } else if(option==2){
+                getAllPlaces();
+            } else if(option==3){
                 System.out.println("Enter name: ");
                 String name = scanner.next();
                 System.out.println("Create login: ");
@@ -97,11 +100,11 @@ public class MyApplication {
                 } else {
                     addNewUser(name, login, password);
                 }
-            } else if(option==3){
-                addPlace();
             } else if(option==4){
-                removeUserById();
+                addPlace();
             } else if(option==5){
+                removeUserById();
+            } else if(option==6){
                 removePlaceById();
             } else if(option==0){
                 start();
@@ -113,20 +116,24 @@ public class MyApplication {
     public void user(){
         while (true) {
             System.out.println("< - - - New process... - - - >");
-            System.out.println("Select option: (1-3)");
+            System.out.println("Select option: (1-4)");
             System.out.println("1. Get all orders");
+            System.out.println("2. Get all places");
             //////////////////////////////////////////////////////////////////////
 //            GET ALL PlACES
             //////////////////////////////////////////////////////////////////////
-            System.out.println("2. Add new order");
-            System.out.println("3. Remove order");
+            System.out.println("3. Add new order");
+            System.out.println("4. Remove order");
             System.out.println("0. Exit from user");
             int option = scanner.nextInt();
             if(option==1){
                 getAllOrders();
             } else if(option==2){
-                addNewOrder();
+                getAllPlaces();
             } else if(option==3){
+                getAllOrders();
+                addNewOrder();
+            } else if(option==4){
                 removeOrder();
             } else if(option==0){
                 start();
@@ -200,6 +207,10 @@ public class MyApplication {
         System.out.println("Enter place from where you wanted go: ");
         String whereFrom = scanner.next();
         String response = controller.isRemoved(login, whereTo, whereFrom);
+        System.out.println(response);
+    }
+    public void getAllPlaces(){
+        String response = controller.getAllPlaces();
         System.out.println(response);
     }
 
