@@ -20,40 +20,46 @@ public class AllControllers {
         return hasUser;
     }
 
-//    public String isRegistered(String name, String surname, String login, LocalDate regDate, String wantTo, LocalDate atDate) {
-//        boolean isRegistered = repository.isRegistered(name, surname, login, regDate, wantTo, atDate);
-//        return isRegistered==true ? "You have registered!" : "Registration is failed!";
-//    }
 
-    public boolean addUser(String name, String login, String password, LocalDate regDate){
-        boolean isAdded = repository.addUser(name, login, password, regDate);
-        return isAdded;
-    }
-    public String removeUserById(int id){
-        boolean isRemoved = repository.removeUser(id);
-        return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
-    }
     public String getAllUsers(){
         List<LogIn> users = repository.getAllUsers();
         return users == null ? "Fail!" : users.toString();
-    }
-
-    public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
-        boolean isAdded = repository.addPlace(name, starting_date, reiteration, price);
-        return isAdded;
-    }
-    public String removePlaceById(int id){
-        boolean isRemoved = repository.removePlace(id);
-        return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
-    }
-    public String isAddedOrder(String whereTo, String whereFrom, String login, int totalDay){
-        boolean isAdded = repository.isAddedOrder(whereTo, whereFrom, login, totalDay);
-        return isAdded == true ? "Order is added!" : "Order addition is failed!";
     }
     public String getAllOrders(){
         List<Order> orders = repository.getAllOrders();
         return orders == null ? "Not found!" : orders.toString();
     }
+
+
+
+    public boolean addUser(String name, String login, String password, LocalDate regDate){
+        boolean isAdded = repository.addUser(name, login, password, regDate);
+        return isAdded;
+    }
+    public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
+        boolean isAdded = repository.addPlace(name, starting_date, reiteration, price);
+        return isAdded;
+    }
+
+
+
+    public String removeUserById(int id){
+        boolean isRemoved = repository.removeUser(id);
+        return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
+    }
+    public String removePlaceById(int id){
+        boolean isRemoved = repository.removePlace(id);
+        return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
+    }
+
+
+
+    public String isAddedOrder(String whereFrom, String whereTo, String login){
+        boolean isAdded = repository.isAddedOrder(whereFrom, whereTo, login);
+        return isAdded == true ? "Order is added!" : "Order addition is failed!";
+    }
+
+
     public String getOrdersForUser(String login){
         List<Order> orders = repository.getOrdersForUserByLogin(login);
         return orders == null ? "Not found!" : orders.toString();
