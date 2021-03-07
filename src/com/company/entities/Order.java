@@ -1,39 +1,55 @@
 package com.company.entities;
 
 import java.sql.Date;
-import java.util.Locale;
 
-public class Order extends LogIn{
-    private int orderID;
-    private String whereTo;
+public class Order{
+    private int id;
     private String whereFrom;
+    private String whereTo;
+    private String from_login;
     private int totalDay;
-    public Order(int id, String name, String login, String password, Date date_of_reg) {
-        super(id, name, login, password, date_of_reg);
-    }
-    public Order(String name, String login, String password, Date date_of_reg) {
-        super(name, login, password, date_of_reg);
-    }
-    public Order(int orderID, String whereTo, String whereFrom, int totalDay, String name, String login, int price){
-        super(name, login);
-        setOrderID(orderID);
-        setWhereTo(whereTo);
+    private int price;
+//    public Order(int id, String whereFrom, String whereTo, String from_login, int totalDay, int price) {
+//        super(id, name, login, password, date_of_reg);
+//    }
+//    public Order(String name, String login, String password, Date date_of_reg) {
+//        super(name, login, password, date_of_reg);
+//    }
+    public Order(int id, String whereFrom, String whereTo, String from_login, int totalDay, int price){
+        setId(id);
         setWhereFrom(whereFrom);
+        setWhereTo(whereTo);
+        setFrom_login(from_login);
         setTotalDay(totalDay);
-        price = calculatePrice(whereTo, whereFrom, totalDay);
+        setPrice(price);
+//        setOrderID(orderID);
+//        setWhereTo(whereTo);
+//        setWhereFrom(whereFrom);
+//        setTotalDay(totalDay);
+//        price = calculatePrice(whereTo, whereFrom, totalDay);
     }
-    public Order(){};
-    public int getOrderID() {
-        return orderID;
+
+    public Order(String whereFrom, String whereTo, String from_login, int totalDay, int price){
+        setWhereFrom(whereFrom);
+        setWhereTo(whereTo);
+        setFrom_login(from_login);
+        setTotalDay(totalDay);
+        setPrice(price);
     }
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
+    public Order(String whereFrom, String whereTo, String from_login, int totalDay){
+        setWhereFrom(whereFrom);
+        setWhereTo(whereTo);
+        setFrom_login(from_login);
+        setTotalDay(totalDay);
+        price = calculatePrice(whereFrom, whereTo, totalDay);
+        setPrice(price);
     }
-    public String getWhereTo() {
-        return whereTo;
+
+    public int getId() {
+        return id;
     }
-    public void setWhereTo(String whereTo) {
-        this.whereTo = whereTo;
+    public void setId(int id) {
+        this.id = id;
     }
     public String getWhereFrom() {
         return whereFrom;
@@ -41,50 +57,110 @@ public class Order extends LogIn{
     public void setWhereFrom(String whereFrom) {
         this.whereFrom = whereFrom;
     }
+    public String getWhereTo() {
+        return whereTo;
+    }
+    public void setWhereTo(String whereTo) {
+        this.whereTo = whereTo;
+    }
+    public String getFrom_login() {
+        return from_login;
+    }
+    public void setFrom_login(String from_login) {
+        this.from_login = from_login;
+    }
     public int getTotalDay() {
         return totalDay;
     }
     public void setTotalDay(int totalDay) {
         this.totalDay = totalDay;
     }
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    //    public int getId() {
+//        return id;
+//    }
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+//    public int getOrderID() {
+//        return orderID;
+//    }
+//    public void setOrderID(int orderID) {
+//        this.orderID = orderID;
+//    }
+//    public String getWhereTo() {
+//        return whereTo;
+//    }
+//    public void setWhereTo(String whereTo) {
+//        this.whereTo = whereTo;
+//    }
+//    public String getWhereFrom() {
+//        return whereFrom;
+//    }
+//    public void setWhereFrom(String whereFrom) {
+//        this.whereFrom = whereFrom;
+//    }
+//    public int getTotalDay() {
+//        return totalDay;
+//    }
+//    public void setTotalDay(int totalDay) {
+//        this.totalDay = totalDay;
+//    }
+
     public int calculatePrice(String city1, String city2, int totalDay){
         int price = 0;
         int x_city1 = 0;
         int x_city2 = 0;
         int y_city1 = 0;
         int y_city2 = 0;
-        if(city1.toLowerCase() == "taraz") {
+        String cityFrom = city1.toLowerCase();
+        String cityTo = city2.toLowerCase();
+        if(cityFrom.equals("taraz")) {
             Travel_places taraz = new Travel_places();
             x_city1 = taraz.getX_Taraz();
             y_city1 = taraz.getY_Taraz();
-        }
-        if(city1.toLowerCase() == "astana"){
+        } else if(cityFrom.equals("astana")){
             Travel_places astana = new Travel_places();
             x_city1 = astana.getX_Astana();
             y_city1 = astana.getY_Astana();
-        }
-        if(city1.toLowerCase() == "shymkent"){
+        } else if(cityFrom.equals("shymkent")){
             Travel_places shymkent = new Travel_places();
             x_city1 = shymkent.getX_Shymkent();
             y_city1 = shymkent.getY_Shymkent();
-        }
-        if(city2.toLowerCase() == "taraz") {
+        } else if(cityTo.equals("taraz")) {
             Travel_places taraz = new Travel_places();
             x_city2 = taraz.getX_Taraz();
             y_city2 = taraz.getY_Taraz();
-        }
-        if(city2.toLowerCase() == "astana"){
+        } else if(cityTo.equals("astana")){
             Travel_places astana = new Travel_places();
             x_city2 = astana.getX_Astana();
             y_city2 = astana.getY_Astana();
-        }
-        if(city2.toLowerCase() == "shymkent"){
+        } else if(cityTo.equals("shymkent")){
             Travel_places shymkent = new Travel_places();
             x_city2 = shymkent.getX_Shymkent();
             y_city2 = shymkent.getY_Shymkent();
         }
-        int distance = (int) Math.sqrt(Math.pow((x_city2-x_city1), 2) + Math.pow((y_city2-y_city1), 2));
+        int distance = (int) Math.sqrt(Math.pow(Math.abs((x_city2-x_city1)), 2) + Math.pow(Math.abs((y_city2-y_city1)), 2));
         price = distance * totalDay * 5;
         return price;
+    }
+
+
+    @Override
+    public String toString() {
+        return '\n' + "Order{" +
+                "id=" + id +
+                ", whereFrom='" + whereFrom + '\'' +
+                ", whereTo='" + whereTo + '\'' +
+                ", from_login='" + from_login + '\'' +
+                ", totalDay=" + totalDay +
+                ", price=" + price +
+                '}';
     }
 }

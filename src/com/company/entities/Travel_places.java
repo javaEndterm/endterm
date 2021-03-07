@@ -93,7 +93,7 @@ public class Travel_places {
 
     @Override
     public String toString() {
-        return "Travel_places{" +
+        return '\n' + "Travel_places{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", date='" + date + '\'' +
