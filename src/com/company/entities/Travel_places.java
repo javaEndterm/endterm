@@ -7,10 +7,11 @@ public class Travel_places {
     private int price;
     private int x_Taraz = 1500;
     private int y_Taraz = 400;
-    private int x_Aktau = 100;
-    private int y_Aktau = 700;
+    private int x_Shymkent = 100;
+    private int y_Shymkent = 700;
     private int x_Astana = 1700;
     private int y_Astana = 1100;
+    public Travel_places(){};
 
     public int getId() {
         return id;
@@ -49,17 +50,18 @@ public class Travel_places {
     public void setY_Taraz(int y_Taraz) {
         this.y_Taraz = y_Taraz;
     }
-    public int getX_Aktau() {
-        return x_Aktau;
+
+    public int getX_Shymkent() {
+        return x_Shymkent;
     }
-    public void setX_Aktau(int x_Aktau) {
-        this.x_Aktau = x_Aktau;
+    public void setX_Shymkent(int x_Shymkent) {
+        this.x_Shymkent = x_Shymkent;
     }
-    public int getY_Aktau() {
-        return y_Aktau;
+    public int getY_Shymkent() {
+        return y_Shymkent;
     }
-    public void setY_Aktau(int y_Aktau) {
-        this.y_Aktau = y_Aktau;
+    public void setY_Shymkent(int y_Shymkent) {
+        this.y_Shymkent = y_Shymkent;
     }
     public int getX_Astana() {
         return x_Astana;

@@ -2,6 +2,7 @@ package com.company.repositories;
 
 import com.company.data.interfaces.IDB;
 import com.company.entities.LogIn;
+import com.company.entities.Order;
 import com.company.repositories.interfaces.IAllRepositories;
 
 import java.sql.*;
@@ -57,7 +58,6 @@ public class AllRepositories implements IAllRepositories {
         }
         return false;
     }
-
     @Override
     public boolean isAdmin(String login, String password) {
         Connection connection = null;
@@ -95,7 +95,6 @@ public class AllRepositories implements IAllRepositories {
         }
         return false;
     }
-
     @Override
     public boolean removeUser(int id) {
         Connection connection = null;
@@ -118,7 +117,6 @@ public class AllRepositories implements IAllRepositories {
         }
         return false;
     }
-
     @Override
     public boolean addUser(String name, String login, String password, LocalDate regDate) {
         Connection con = null;
@@ -145,7 +143,6 @@ public class AllRepositories implements IAllRepositories {
         }
         return false;
     }
-
     @Override
     public List<LogIn> getAllUsers() {
 
@@ -182,7 +179,6 @@ public class AllRepositories implements IAllRepositories {
         }
         return null;
     }
-
     @Override
     public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
         Connection connection = null;
@@ -232,6 +228,162 @@ public class AllRepositories implements IAllRepositories {
         }
         return false;
     }
+    @Override
+    public boolean isAddedOrder(String whereTo, String whereFrom, String login, int totalDay) {
+        Connection con = null;
+        try {
+            con = database.getConnection();
+            Order order = new Order();
+            int price = order.calculatePrice(whereFrom, whereTo, totalDay);
+            int id = getIdByLogin(login);
+            String sqlOrder = "INSERT INTO Orders VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement statement = con.prepareStatement(sqlOrder);
+            statement.setString(1, whereFrom);
+            statement.setString(2, whereTo);
+            statement.setInt(3, id);
+            statement.setInt(4, totalDay);
+            statement.setInt(5, price);
+            statement.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
+    @Override
+    public int getIdByLogin(String login) {
+        Connection con = null;
+        try{
+            con = database.getConnection();
+
+            String sql = "SELECT id FROM LogIn WHERE login = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, login);
+            st.execute();
+            ResultSet rs = st.getResultSet();
+            int id = rs.getInt("id");
+            return id;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return -1;
+    }
+    @Override
+    public List<Order> getAllOrders() {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "SELECT * FROM \"Orders\" INNER JOIN Orders ON Orders.From_id=LogIn.ID;";
+            Statement statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery(sql);
+            List<Order> orders = new LinkedList<>();
+            while (result.next()) {
+                Order order = new Order(
+                        result.getInt("id"),
+                        result.getString("To_city"),
+                        result.getString("From_city"),
+                        result.getInt("Days"),
+                        result.getString("Name"),
+                        result.getString("Login"),
+                        result.getInt("Price")
+                );
+                orders.add(order);
+            }
+            return orders;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return null;
+    }
+    @Override
+    public List<Order> getOrdersForUserByLogin(String login) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+            int id = getIdByLogin(login);
+            String sql = "SELECT * FROM \"Orders\" INNER JOIN Orders ON Orders.From_id=LogIn.ID;";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet result = st.executeQuery();
+            List<Order> orders = new LinkedList<>();
+            while (result.next()) {
+                Order order = new Order(
+                        result.getInt("id"),
+                        result.getString("To_city"),
+                        result.getString("From_city"),
+                        result.getInt("Days"),
+                        result.getString("Name"),
+                        result.getString("Login"),
+                        result.getInt("Price")
+                );
+                orders.add(order);
+            }
+            return orders;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return null;
+    }
+    @Override
+    public boolean isRemovedOrder(String login, String whereTo, String whereFrom) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+            int id = getIdByLogin(login);
+            String sql = "DELETE FROM \"Orders\" WHERE \"From_id\"=? AND From_city = ? AND To_city = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.setString(2, whereFrom);
+            statement.setString(3, whereTo);
+            statement.execute();
+            return true;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+
 //    @Override
 //    boolean addOrder(String city1, String city2, int days) {
 //        Connection con = null;

@@ -47,7 +47,7 @@ public class MyApplication {
                         admin();
                     } else if (isAdmin(login, password) == false) {
                         ////////////////////////////////////////////////////////////
-//                        user();
+                        user();
                         ////////////////////////////////////////////////////////////
                     }
                 } else if (hasUser(login, password) == false) {
@@ -110,6 +110,31 @@ public class MyApplication {
             }
         }
     }
+    public void user(){
+        while (true) {
+            System.out.println("< - - - New process... - - - >");
+            System.out.println("Select option: (1-3)");
+            System.out.println("1. Get all orders");
+            //////////////////////////////////////////////////////////////////////
+//            GET ALL PlACES
+            //////////////////////////////////////////////////////////////////////
+            System.out.println("2. Add new order");
+            System.out.println("3. Remove order");
+            System.out.println("0. Exit from user");
+            int option = scanner.nextInt();
+            if(option==1){
+                getAllOrders();
+            } else if(option==2){
+                addNewOrder();
+            } else if(option==3){
+                removeOrder();
+            } else if(option==0){
+                start();
+            } else {
+                System.err.println("This option isn't exists. Please, enter again:");
+            }
+        }
+    }
     public void getAllUsers(){
         String response = controller.getAllUsers();
         System.out.println(response);
@@ -149,6 +174,32 @@ public class MyApplication {
         System.out.println("Enter id: ");
         int id = scanner.nextInt();
         String response = controller.removePlaceById(id);
+        System.out.println(response);
+    }
+    public void getAllOrders(){
+        String response = controller.getAllOrders();
+        System.out.println(response);
+    }
+    public void addNewOrder(){
+        System.out.println("Please, enter a place, where you want to go: ");
+        String whereTo = scanner.next();
+        System.out.println("Please, enter a place, from you are going: ");
+        String whereFrom = scanner.next();
+        System.out.println("Please, enter total amount of day: ");
+        int totalDay = scanner.nextInt();
+        System.out.println("Enter your login: ");
+        String login = scanner.next();
+        String response = controller.isAddedOrder(whereTo, whereFrom, login, totalDay);
+        System.out.println(response);
+    }
+    public void removeOrder(){
+        System.out.println("Enter your login: ");
+        String login = scanner.next();
+        System.out.println("Enter place where you wanted go: ");
+        String whereTo = scanner.next();
+        System.out.println("Enter place from where you wanted go: ");
+        String whereFrom = scanner.next();
+        String response = controller.isRemoved(login, whereTo, whereFrom);
         System.out.println(response);
     }
 

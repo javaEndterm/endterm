@@ -46,6 +46,22 @@ public class AllControllers {
         boolean isRemoved = repository.removePlace(id);
         return isRemoved==true ? "User is deleted!" : "User deletion is failed!";
     }
+    public String isAddedOrder(String whereTo, String whereFrom, String login, int totalDay){
+        boolean isAdded = repository.isAddedOrder(whereTo, whereFrom, login, totalDay);
+        return isAdded == true ? "Order is added!" : "Order addition is failed!";
+    }
+    public String getAllOrders(){
+        List<Order> orders = repository.getAllOrders();
+        return orders == null ? "Not found!" : orders.toString();
+    }
+    public String getOrdersForUser(String login){
+        List<Order> orders = repository.getOrdersForUserByLogin(login);
+        return orders == null ? "Not found!" : orders.toString();
+    }
+    public String isRemoved(String login, String whereTo, String whereFrom){
+        boolean isRemoved = repository.isRemovedOrder(login, whereTo, whereFrom);
+        return isRemoved == true ? "Order is removed" : "Order deletion is failed!";
+    }
 
 //    public boolean addOrder(String city1, String city2, int days) {
 //        boolean added = repository.addOrder(city1, city2, days);

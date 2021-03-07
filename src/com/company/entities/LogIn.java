@@ -9,6 +9,9 @@ public class LogIn {
     private String password;
     private Date date_of_reg;
 
+    public LogIn() {
+    }
+
     public int getId() {
         return id;
     }
@@ -54,6 +57,10 @@ public class LogIn {
         setLogin(login);
         setPassword(password);
         setDate_of_reg(date_of_reg);
+    }
+    public LogIn(String name, String login){
+        setName(name);
+        setLogin(login);
     }
 
     @Override
