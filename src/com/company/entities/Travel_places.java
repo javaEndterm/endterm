@@ -78,17 +78,15 @@ public class Travel_places {
         this.y_Astana = y_Astana;
     }
 
-    public Travel_places(int id, String name, String date, int price) {
+    public Travel_places(int id, String name, String date) {
         setId(id);
         setName(name);
         setDate(date);
-        setPrice(price);
     }
 
-    public Travel_places(String name, String date, int price) {
+    public Travel_places(String name, String date) {
         setName(name);
         setDate(date);
-        setPrice(price);
     }
 
     @Override

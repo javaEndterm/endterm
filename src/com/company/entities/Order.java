@@ -1,7 +1,5 @@
 package com.company.entities;
 
-import java.sql.Date;
-
 public class Order{
     private int id;
     private String whereFrom;
@@ -9,12 +7,6 @@ public class Order{
     private String from_login;
     private int totalDay;
     private int price;
-//    public Order(int id, String whereFrom, String whereTo, String from_login, int totalDay, int price) {
-//        super(id, name, login, password, date_of_reg);
-//    }
-//    public Order(String name, String login, String password, Date date_of_reg) {
-//        super(name, login, password, date_of_reg);
-//    }
     public Order(int id, String whereFrom, String whereTo, String from_login, int totalDay, int price){
         setId(id);
         setWhereFrom(whereFrom);
@@ -22,11 +14,6 @@ public class Order{
         setFrom_login(from_login);
         setTotalDay(totalDay);
         setPrice(price);
-//        setOrderID(orderID);
-//        setWhereTo(whereTo);
-//        setWhereFrom(whereFrom);
-//        setTotalDay(totalDay);
-//        price = calculatePrice(whereTo, whereFrom, totalDay);
     }
 
     public Order(String whereFrom, String whereTo, String from_login, int totalDay, int price){
@@ -82,37 +69,6 @@ public class Order{
         this.price = price;
     }
 
-    //    public int getId() {
-//        return id;
-//    }
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-//    public int getOrderID() {
-//        return orderID;
-//    }
-//    public void setOrderID(int orderID) {
-//        this.orderID = orderID;
-//    }
-//    public String getWhereTo() {
-//        return whereTo;
-//    }
-//    public void setWhereTo(String whereTo) {
-//        this.whereTo = whereTo;
-//    }
-//    public String getWhereFrom() {
-//        return whereFrom;
-//    }
-//    public void setWhereFrom(String whereFrom) {
-//        this.whereFrom = whereFrom;
-//    }
-//    public int getTotalDay() {
-//        return totalDay;
-//    }
-//    public void setTotalDay(int totalDay) {
-//        this.totalDay = totalDay;
-//    }
-
     public int calculatePrice(String city1, String city2, int totalDay){
         int price = 0;
         int x_city1 = 0;
@@ -154,13 +110,6 @@ public class Order{
 
     @Override
     public String toString() {
-        return '\n' + "Order{" +
-                "id=" + id +
-                ", whereFrom='" + whereFrom + '\'' +
-                ", whereTo='" + whereTo + '\'' +
-                ", from_login='" + from_login + '\'' +
-                ", totalDay=" + totalDay +
-                ", price=" + price +
-                '}';
+        return '\n' + whereFrom + "<->" + whereTo + " " + price + " for " + totalDay + " days";
     }
 }
