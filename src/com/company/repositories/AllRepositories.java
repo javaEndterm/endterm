@@ -78,7 +78,7 @@ public class AllRepositories implements IAllRepositories {
             int id;
             while (result.next()) {
                 id = result.getInt("ID");
-                if (id == 1 || id == 2) {
+                if (id == 4 || id == 5) {
                     return true;
                 } else {
                     return false;
