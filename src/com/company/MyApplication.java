@@ -80,7 +80,7 @@ public class MyApplication {
     public void admin(){
         while (true) {
             System.out.println("< - - - New process... - - - >");
-            System.out.println("Select option: (1-5)");
+            System.out.println("Select option: (1-9)");
             System.out.println("1. Get all users");
             //////////////////////////////////////////////////////////////////////
 //            GET ALL PlACES
@@ -92,6 +92,7 @@ public class MyApplication {
             System.out.println("6. Get all orders");
             System.out.println("7. Add new order");
             System.out.println("8. Remove order");
+            System.out.println("9. Get all places");
             System.out.println("0. Exit from admin");
             int option = scanner.nextInt();
             if(option==1){
@@ -120,6 +121,8 @@ public class MyApplication {
                 addNewOrder();
             } else if(option==8){
                 removeOrder();
+            } else if (option==9){
+                getAllPlaces();
             } else if(option==0){
                 start();
             } else {
@@ -130,13 +133,14 @@ public class MyApplication {
     public void user(){
         while (true) {
             System.out.println("< - - - New process... - - - >");
-            System.out.println("Select option: (1-3)");
+            System.out.println("Select option: (1-4)");
             System.out.println("1. Get my orders");
+            System.out.println("2. Get all places");
             //////////////////////////////////////////////////////////////////////
 //            GET ALL PlACES
             //////////////////////////////////////////////////////////////////////
-            System.out.println("2. Add new order");
-            System.out.println("3. Remove order");
+            System.out.println("3. Add new order");
+            System.out.println("4. Remove order");
             System.out.println("0. Exit from user");
             int option = scanner.nextInt();
             if(option==1){
@@ -145,6 +149,7 @@ public class MyApplication {
                 getOrdersForUserByLogin(login);
 //                getAllOrdersForUser(login);
             } else if(option==2){
+                getAllPlaces();
                 addNewOrder();
             } else if(option==3){
                 removeOrder();
@@ -250,6 +255,10 @@ public class MyApplication {
             resp = controller.removeOrder(whereFrom, whereTo, login);
             System.out.println(resp);
         }
+    }
+    public void getAllPlaces(){
+        String response = controller.getAllOrders();
+        System.out.println(response);
     }
 
 
