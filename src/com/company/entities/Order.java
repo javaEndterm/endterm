@@ -119,32 +119,34 @@ public class Order{
         int x_city2 = 0;
         int y_city1 = 0;
         int y_city2 = 0;
-        if(city1.toLowerCase() == "taraz") {
+        String cityFrom = city1.toLowerCase();
+        String cityTo = city2.toLowerCase();
+        if(cityFrom.equals("taraz")) {
             Travel_places taraz = new Travel_places();
             x_city1 = taraz.getX_Taraz();
             y_city1 = taraz.getY_Taraz();
-        } else if(city1.toLowerCase() == "astana"){
+        } else if(cityFrom.equals("astana")){
             Travel_places astana = new Travel_places();
             x_city1 = astana.getX_Astana();
             y_city1 = astana.getY_Astana();
-        } else if(city1.toLowerCase() == "shymkent"){
+        } else if(cityFrom.equals("shymkent")){
             Travel_places shymkent = new Travel_places();
             x_city1 = shymkent.getX_Shymkent();
             y_city1 = shymkent.getY_Shymkent();
-        } else if(city2.toLowerCase() == "taraz") {
+        } else if(cityTo.equals("taraz")) {
             Travel_places taraz = new Travel_places();
             x_city2 = taraz.getX_Taraz();
             y_city2 = taraz.getY_Taraz();
-        } else if(city2.toLowerCase() == "astana"){
+        } else if(cityTo.equals("astana")){
             Travel_places astana = new Travel_places();
             x_city2 = astana.getX_Astana();
             y_city2 = astana.getY_Astana();
-        } else if(city2.toLowerCase() == "shymkent"){
+        } else if(cityTo.equals("shymkent")){
             Travel_places shymkent = new Travel_places();
             x_city2 = shymkent.getX_Shymkent();
             y_city2 = shymkent.getY_Shymkent();
         }
-        int distance = (int) Math.sqrt(Math.pow((x_city2-x_city1), 2) + Math.pow((y_city2-y_city1), 2));
+        int distance = (int) Math.sqrt(Math.pow(Math.abs((x_city2-x_city1)), 2) + Math.pow(Math.abs((y_city2-y_city1)), 2));
         price = distance * totalDay * 5;
         return price;
     }

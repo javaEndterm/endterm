@@ -66,14 +66,14 @@ public class AllRepositories implements IAllRepositories {
         try {
             connection = database.getConnection();
 
-            String sql = "SELECT \"ID\" FROM \"LogIn\" WHERE \"Login\" = ? AND \"Password\" = ?";
+            String sql = "SELECT \"ID\" FROM \"LogIn\" WHERE \"Login\"=? AND \"Password\"=?";
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, login);
             statement.setString(2, password);
+            statement.execute();
 
-            Statement statementID = connection.createStatement();
-            ResultSet result = statementID.executeQuery(sql);
+            ResultSet result = statement.getResultSet();
 
             int id;
             while (result.next()) {
@@ -172,6 +172,50 @@ public class AllRepositories implements IAllRepositories {
         return null;
     }
 
+//    @Override
+//    public List<Order> getAllOrdersForUser(String login) {
+//        Connection connection = null;
+//        try {
+//            connection = database.getConnection();
+//
+//            String sql = "SELECT * FROM \"Orders\" WHERE \"From_login\"=?";
+//
+//
+//            PreparedStatement p_statement = connection.prepareStatement(sql);
+//            p_statement.setString(1, login);
+//            p_statement.execute();
+//
+//
+//            Statement statement = connection.createStatement();
+//
+//            ResultSet result = statement.getResultSet();
+//            List<Order> orders = new LinkedList<>();
+//            while (result.next()) {
+//                Order order = new Order(
+//                        result.getInt("id"),
+//                        result.getString("From_city"),
+//                        result.getString("To_city"),
+//                        result.getString("From_login"),
+//                        result.getInt("Days"),
+//                        result.getInt("Price")
+//                );
+//                orders.add(order);
+//            }
+//            return orders;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                connection.close();
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
+//        }
+//        return null;
+//    }
+
 
     @Override
     public boolean addUser(String name, String login, String password, LocalDate regDate) {
@@ -212,6 +256,35 @@ public class AllRepositories implements IAllRepositories {
             statement.setDate(2, starting_date);
             statement.setString(3, reiteration);
             statement.setInt(4, price);
+            statement.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addOrder(String whereFrom, String whereTo, String from_login, int days, int price) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "INSERT INTO \"Orders\"(\"From_city\", \"To_city\", \"From_login\", \"Days\", \"Price\") VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, whereFrom);
+            statement.setString(2, whereTo);
+            statement.setString(3, from_login);
+            statement.setInt(4, days);
+            statement.setInt(5, price);
             statement.execute();
             return true;
         } catch (SQLException throwables) {
@@ -277,10 +350,34 @@ public class AllRepositories implements IAllRepositories {
         return false;
     }
 
+    @Override
+    public boolean removeOrder(String whereFrom, String whereTo, String login) {
+        Connection connection = null;
+        try {
+            connection = database.getConnection();
+
+            String sql = "DELETE FROM \"Orders\" WHERE \"From_city\"=? AND \"To_city\"=? AND \"From_login\"=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, whereFrom);
+            statement.setString(2, whereTo);
+            statement.setString(3, login);
+            statement.execute();
+            return true;
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return false;
+    }
 
 
     @Override
-    public boolean isAddedOrder(String whereFrom, String whereTo, String from_login) {
+    public boolean isExistsOrder(String whereFrom, String whereTo, String from_login) {
 
 
         Connection connection = null;
@@ -289,16 +386,15 @@ public class AllRepositories implements IAllRepositories {
 
             String sql = "SELECT \"From_city\", \"To_city\", \"From_login\" FROM \"Orders\" WHERE \"From_city\"=? AND \"To_city\"=? AND \"From_login\"=?";
 
-
             PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, whereFrom);
             statement.setString(2, whereTo);
             statement.setString(3, from_login);
+            statement.execute();
 
-            Statement stat = connection.createStatement();
 
-            ResultSet result = stat.executeQuery(sql);
+            ResultSet result = statement.getResultSet();
 
             String from, to, login;
 

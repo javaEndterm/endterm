@@ -1,9 +1,11 @@
 package com.company;
 
 import com.company.controllers.AllControllers;
+import com.company.entities.Order;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -47,16 +49,14 @@ public class MyApplication {
                         System.out.println("Welcome, admin!");
                         admin();
                     } else if (isAdmin(login, password) == false) {
-                        ////////////////////////////////////////////////////////////
                         user();
-                        ////////////////////////////////////////////////////////////
                     }
                 } else if (hasUser(login, password) == false) {
                     System.err.println("Error!");
                     start();
                 }
             } else if (option == 0) {
-                break;
+                System.exit(0);
             } else {
                 System.err.println("Error!");
                 start();
@@ -71,7 +71,7 @@ public class MyApplication {
         return response;
     }
     public boolean isAdmin(String login, String password){
-        boolean response = controller.hasUser(login, password);
+        boolean response = controller.isAdmin(login, password);
         return response;
     }
 
@@ -131,7 +131,7 @@ public class MyApplication {
         while (true) {
             System.out.println("< - - - New process... - - - >");
             System.out.println("Select option: (1-3)");
-            System.out.println("1. Get all orders");
+            System.out.println("1. Get my orders");
             //////////////////////////////////////////////////////////////////////
 //            GET ALL PlACES
             //////////////////////////////////////////////////////////////////////
@@ -140,7 +140,10 @@ public class MyApplication {
             System.out.println("0. Exit from user");
             int option = scanner.nextInt();
             if(option==1){
-                getAllOrders();
+                System.out.println("Enter your login");
+                String login = scanner.next();
+                getOrdersForUserByLogin(login);
+//                getAllOrdersForUser(login);
             } else if(option==2){
                 addNewOrder();
             } else if(option==3){
@@ -161,6 +164,14 @@ public class MyApplication {
     }
     public void getAllOrders(){
         String response = controller.getAllOrders();
+        System.out.println(response);
+    }
+//    public void getAllOrdersForUser(String login){
+//        String response = controller.getAllOrdersForUser(login);
+//        System.out.println(response);
+//    }
+    public void getOrdersForUserByLogin(String login) {
+        String response = controller.getOrdersForUserByLogin(login);
         System.out.println(response);
     }
 
@@ -197,8 +208,17 @@ public class MyApplication {
         String whereTo = scanner.next();
         System.out.println("Enter your login: ");
         String login = scanner.next();
-        String response = controller.isAddedOrder(whereFrom, whereTo, login);
-        System.out.println(response);
+        boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
+        String resp;
+        if (response == false) {
+            System.out.println("For how many days?");
+            int days = scanner.nextInt();
+            resp = controller.addOrder(whereFrom, whereTo, login, days);
+            System.out.println(resp);
+        } else {
+            resp = "Error! Order exists";
+            System.err.println(resp);
+        }
     }
 
 
@@ -217,12 +237,19 @@ public class MyApplication {
     public void removeOrder(){
         System.out.println("Enter your login: ");
         String login = scanner.next();
-        System.out.println("Enter place where you wanted go: ");
-        String whereTo = scanner.next();
         System.out.println("Enter place from where you wanted go: ");
         String whereFrom = scanner.next();
-        String response = controller.isRemoved(login, whereTo, whereFrom);
-        System.out.println(response);
+        System.out.println("Enter place where you wanted go: ");
+        String whereTo = scanner.next();
+        boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
+        String resp;
+        if (response == false) {
+            resp = "There aren't any orders like this!";
+            System.err.println(resp);
+        } else {
+            resp = controller.removeOrder(whereFrom, whereTo, login);
+            System.out.println(resp);
+        }
     }
 
 
