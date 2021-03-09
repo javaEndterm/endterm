@@ -1,9 +1,7 @@
 package com.company.controllers;
 
-
 import com.company.entities.*;
 import com.company.repositories.interfaces.IAllRepositories;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,16 +13,25 @@ public class AllControllers {
         this.repository = repository;
     }
 
+
+
     public boolean hasUser(String login, String password) {
-        boolean hasUser = repository.hasUser(login, password);
-        return hasUser;
+        return repository.hasUser(login, password);
+    }
+
+    public boolean hasLogin(String login) {
+        return repository.hasLogin(login);
     }
 
     public boolean isAdmin(String login, String password) {
-        boolean isAdmin = repository.isAdmin(login, password);
-        return isAdmin;
+        return repository.isAdmin(login, password);
     }
 
+    public boolean isExistsOrder(String whereFrom, String whereTo, String login) {
+        return repository.isExistsOrder(whereFrom, whereTo, login);
+    }
+
+    ///
 
     public String getAllUsers() {
         List<LogIn> users = repository.getAllUsers();
@@ -41,15 +48,16 @@ public class AllControllers {
         return orders == null ? "Not found!" : orders.toString();
     }
 
-
-    public boolean addUser(String name, String login, String password, LocalDate regDate) {
-        boolean isAdded = repository.addUser(name, login, password, regDate);
-        return isAdded;
+    public String getAllPlaces(){
+        List<Travel_places> travelPlaces = repository.getAllPlaces();
+        return travelPlaces == null ? "Not found!" : travelPlaces.toString();
     }
 
-    public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
-        boolean isAdded = repository.addPlace(name, starting_date, reiteration, price);
-        return isAdded;
+    ///
+
+
+    public boolean addUser(String name, String login, String password, LocalDate regDate) {
+        return repository.addUser(name, login, password, regDate);
     }
 
     public String addOrder(String whereFrom, String whereTo, String login, int days) {
@@ -58,32 +66,27 @@ public class AllControllers {
         int price = order.calculatePrice(whereFrom, whereTo, days);
 
         boolean isAdded = repository.addOrder(whereFrom, whereTo, login, days, price);
-        return isAdded == true ? "Order is added!" : "Order addition is failed!";
+        return isAdded ? "Order is added!" : "Order addition is failed!";
     }
 
+    public boolean addPlace(String name, Date starting_date, String reiteration, int price) {
+        return repository.addPlace(name, starting_date, reiteration, price);
+    }
+
+    ///
 
     public String removeUserById(int id) {
         boolean isRemoved = repository.removeUser(id);
-        return isRemoved == true ? "User is deleted!" : "User deletion is failed!";
-    }
-
-    public String removePlaceById(int id) {
-        boolean isRemoved = repository.removePlace(id);
-        return isRemoved == true ? "User is deleted!" : "User deletion is failed!";
+        return isRemoved ? "User is deleted!" : "User deletion is failed!";
     }
 
     public String removeOrder(String whereFrom, String whereTo, String login) {
         boolean isRemoved = repository.removeOrder(whereFrom, whereTo, login);
-        return isRemoved == true ? "Order is deleted!" : "Order deletion is failed!";
+        return isRemoved ? "Order is deleted!" : "Order deletion is failed!";
     }
 
-
-    public boolean isExistsOrder(String whereFrom, String whereTo, String login) {
-        boolean isExists = repository.isExistsOrder(whereFrom, whereTo, login);
-        return isExists;
-    }
-    public String getAllPlaces(){
-        List<Travel_places> travelPlaces = repository.getAllPlaces();
-        return travelPlaces == null ? "Not found!" : travelPlaces.toString();
+    public String removePlaceById(int id) {
+        boolean isRemoved = repository.removePlace(id);
+        return isRemoved ? "User is deleted!" : "User deletion is failed!";
     }
 }

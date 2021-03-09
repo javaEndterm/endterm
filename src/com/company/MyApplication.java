@@ -1,11 +1,8 @@
 package com.company;
 
 import com.company.controllers.AllControllers;
-import com.company.entities.Order;
-
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
 
 public class MyApplication {
@@ -18,7 +15,7 @@ public class MyApplication {
     }
 
     public void start() {
-        System.err.println("(Aika <-> Aika123, Maks <-> Maks123), usertest <-> usertest123");
+        System.err.println("(Aika <-> Aika123, Maks <-> Maks123), usertest <-> usertest123, test <-> test123");
         while (true) {
             System.out.println("< - - - New process... - - - >");
             System.out.println("Welcome to my application");
@@ -34,7 +31,7 @@ public class MyApplication {
                 String login = scanner.next();
                 System.out.println("Enter password");
                 String password = scanner.next();
-                if (hasUser(login, password) == true) {
+                if (hasUser(login, password)) {
                     System.err.println("This account already exists!");
                 } else {
                     addNewUser(name, login, password);
@@ -44,14 +41,14 @@ public class MyApplication {
                 String login = scanner.next();
                 System.out.println("Enter password:");
                 String password = scanner.next();
-                if (hasUser(login, password) == true) {
-                    if (isAdmin(login, password) == true) {
+                if (hasUser(login, password)) {
+                    if (isAdmin(login, password)) {
                         System.out.println("Welcome, admin!");
                         admin();
-                    } else if (isAdmin(login, password) == false) {
+                    } else if (!isAdmin(login, password)) {
                         user();
                     }
-                } else if (hasUser(login, password) == false) {
+                } else if (!hasUser(login, password)) {
                     System.err.println("Error!");
                     start();
                 }
@@ -65,25 +62,22 @@ public class MyApplication {
     }
 
 
+
     public boolean hasUser(String login, String password) {
-        boolean response = controller.hasUser(login, password);
-        return response;
+        return controller.hasUser(login, password);
     }
 
     public boolean isAdmin(String login, String password) {
-        boolean response = controller.isAdmin(login, password);
-        return response;
+        return controller.isAdmin(login, password);
     }
 
+    ///
 
     public void admin() {
         while (true) {
             System.out.println("< - - - New process... - - - >");
             System.out.println("Select option: (1-9)");
             System.out.println("1. Get all users");
-            //////////////////////////////////////////////////////////////////////
-//            GET ALL PlACES
-            //////////////////////////////////////////////////////////////////////
             System.out.println("2. Add new user");
             System.out.println("3. Add new place");
             System.out.println("4. Remove user by ID");
@@ -103,7 +97,7 @@ public class MyApplication {
                 String login = scanner.next();
                 System.out.println("Enter password");
                 String password = scanner.next();
-                if (hasUser(login, password) == true) {
+                if (hasUser(login, password)) {
                     System.err.println("This account already exists!");
                 } else {
                     addNewUser(name, login, password);
@@ -136,9 +130,6 @@ public class MyApplication {
             System.out.println("Select option: (1-4)");
             System.out.println("1. Get my orders");
             System.out.println("2. Get all places");
-            //////////////////////////////////////////////////////////////////////
-//            GET ALL PlACES
-            //////////////////////////////////////////////////////////////////////
             System.out.println("3. Add new order");
             System.out.println("4. Remove order");
             System.out.println("0. Exit from user");
@@ -160,6 +151,7 @@ public class MyApplication {
         }
     }
 
+    ///
 
     public void getAllUsers() {
         String response = controller.getAllUsers();
@@ -176,14 +168,44 @@ public class MyApplication {
         System.out.println(response);
     }
 
+    public void getAllPlaces() {
+        String response = controller.getAllPlaces();
+        System.out.println(response);
+    }
+
+    ///
 
     public void addNewUser(String name, String login, String password) {
         LocalDate regDate = LocalDate.now();
         boolean response = controller.addUser(name, login, password, regDate);
-        if (response == true) {
+        if (response) {
             System.out.println("Registered!");
         } else {
             System.err.println("Didn't registered!");
+        }
+    }
+
+    public void addNewOrder() {
+        System.out.println("Please, enter a place, from you are going: ");
+        String whereFrom = scanner.next();
+        System.out.println("Please, enter a place, where you want to go: ");
+        String whereTo = scanner.next();
+        System.out.println("Enter your login: ");
+        String login = scanner.next();
+        boolean hasLogin = controller.hasLogin(login);
+        boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
+        String resp;
+        if (!response && hasLogin) {
+            System.out.println("For how many days?");
+            int days = scanner.nextInt();
+            resp = controller.addOrder(whereFrom, whereTo, login, days);
+            System.out.println(resp);
+        } else if (!hasLogin) {
+            resp = "Error! Login mistake";
+            System.err.println(resp);
+        } else {
+            resp = "Error! Order exists";
+            System.err.println(resp);
         }
     }
 
@@ -197,45 +219,19 @@ public class MyApplication {
         System.out.println("Price per day");
         int price = scanner.nextInt();
         boolean response = controller.addPlace(name, starting_date, reiteration, price);
-        if (response == true) {
+        if (response) {
             System.out.println("Added!");
         } else {
             System.err.println("Didn't Add!");
         }
     }
 
-    public void addNewOrder() {
-        System.out.println("Please, enter a place, from you are going: ");
-        String whereFrom = scanner.next();
-        System.out.println("Please, enter a place, where you want to go: ");
-        String whereTo = scanner.next();
-        System.out.println("Enter your login: ");
-        String login = scanner.next();
-        boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
-        String resp;
-        if (response == false) {
-            System.out.println("For how many days?");
-            int days = scanner.nextInt();
-            resp = controller.addOrder(whereFrom, whereTo, login, days);
-            System.out.println(resp);
-        } else {
-            resp = "Error! Order exists";
-            System.err.println(resp);
-        }
-    }
-
+    ///
 
     public void removeUserById() {
         System.out.println("Enter id: ");
         int id = scanner.nextInt();
         String response = controller.removeUserById(id);
-        System.out.println(response);
-    }
-
-    public void removePlaceById() {
-        System.out.println("Enter id: ");
-        int id = scanner.nextInt();
-        String response = controller.removePlaceById(id);
         System.out.println(response);
     }
 
@@ -248,7 +244,7 @@ public class MyApplication {
         String whereTo = scanner.next();
         boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
         String resp;
-        if (response == false) {
+        if (!response) {
             resp = "There aren't any orders like this!";
             System.err.println(resp);
         } else {
@@ -257,8 +253,28 @@ public class MyApplication {
         }
     }
 
-    public void getAllPlaces() {
-        String response = controller.getAllPlaces();
+//    public void removeOrderById() {
+//        System.out.println("Enter your login: ");
+//        String login = scanner.next();
+//        System.out.println("Enter place from where you wanted go: ");
+//        String whereFrom = scanner.next();
+//        System.out.println("Enter place where you wanted go: ");
+//        String whereTo = scanner.next();
+//        boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
+//        String resp;
+//        if (response == false) {
+//            resp = "There aren't any orders like this!";
+//            System.err.println(resp);
+//        } else {
+//            resp = controller.removeOrder(whereFrom, whereTo, login);
+//            System.out.println(resp);
+//        }
+//    }
+
+    public void removePlaceById() {
+        System.out.println("Enter id: ");
+        int id = scanner.nextInt();
+        String response = controller.removePlaceById(id);
         System.out.println(response);
     }
 }

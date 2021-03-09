@@ -4,98 +4,87 @@ import java.sql.Date;
 
 public class Travel_places {
     private int id;
-    private String name;
-    private String date;
-    private int price;
-    private int x_Taraz = 1500;
-    private int y_Taraz = 400;
-    private int x_Shymkent = 100;
-    private int y_Shymkent = 700;
-    private int x_Astana = 1700;
-    private int y_Astana = 1100;
+    private String place1;
+    private String place2;
+    private Date date;
+    private String reiteration;
+    private int price_per_day;
+
+    private final int x_Taraz = 42000;
+    private final int y_Taraz = 71000;
+    private final int x_Shymkent = 42000;
+    private final int y_Shymkent = 69000;
+    private final int x_Astana = 51000;
+    private final int y_Astana = 71000;
+
     public Travel_places(){};
 
-    public int getId() {
-        return id;
-    }
     public void setId(int id) {
         this.id = id;
     }
-    public String getName() {
-        return name;
+    public void setPlace1(String place1) {
+        this.place1 = place1;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setPlace2(String place2) {
+        this.place2 = place2;
     }
-    public String getDate() {
-        return date;
-    }
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
-    public int getPrice() {
-        return price;
+    public void setReiteration(String reiteration) {
+        this.reiteration = reiteration;
     }
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice_per_day(int price_per_day) {
+        this.price_per_day = price_per_day;
     }
 
     public int getX_Taraz() {
         return x_Taraz;
     }
-    public void setX_Taraz(int x_Taraz) {
-        this.x_Taraz = x_Taraz;
-    }
     public int getY_Taraz() {
         return y_Taraz;
-    }
-    public void setY_Taraz(int y_Taraz) {
-        this.y_Taraz = y_Taraz;
     }
 
     public int getX_Shymkent() {
         return x_Shymkent;
     }
-    public void setX_Shymkent(int x_Shymkent) {
-        this.x_Shymkent = x_Shymkent;
-    }
     public int getY_Shymkent() {
         return y_Shymkent;
     }
-    public void setY_Shymkent(int y_Shymkent) {
-        this.y_Shymkent = y_Shymkent;
-    }
+
     public int getX_Astana() {
         return x_Astana;
-    }
-    public void setX_Astana(int x_Astana) {
-        this.x_Astana = x_Astana;
     }
     public int getY_Astana() {
         return y_Astana;
     }
-    public void setY_Astana(int y_Astana) {
-        this.y_Astana = y_Astana;
-    }
 
-    public Travel_places(int id, String name, String date) {
+    public Travel_places(int id, String place1, String place2, Date date, String reiteration, int price_per_day) {
         setId(id);
-        setName(name);
+        setPlace1(place1);
+        setPlace2(place2);
         setDate(date);
+        setReiteration(reiteration);
+        setPrice_per_day(price_per_day);
     }
 
-    public Travel_places(String name, String date) {
-        setName(name);
+    public Travel_places(String place1, String place2, Date date, String reiteration, int price_per_day) {
+        setPlace1(place1);
+        setPlace2(place2);
         setDate(date);
+        setReiteration(reiteration);
+        setPrice_per_day(price_per_day);
     }
 
     @Override
     public String toString() {
         return '\n' + "Travel_places{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", date='" + date + '\'' +
-                ", price=" + price +
+                ", place1='" + place1 + '\'' +
+                ", place2='" + place2 + '\'' +
+                ", date=" + date +
+                ", reiteration='" + reiteration + '\'' +
+                ", price_per_day=" + price_per_day +
                 '}';
     }
 }

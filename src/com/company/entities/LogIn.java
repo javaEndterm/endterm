@@ -9,8 +9,7 @@ public class LogIn {
     private String password;
     private Date date_of_reg;
 
-    public LogIn() {
-    }
+    public LogIn() {}
 
     public int getId() {
         return id;
@@ -43,7 +42,6 @@ public class LogIn {
         this.date_of_reg = date_of_reg;
     }
 
-
     public LogIn(int id, String name, String login, String password, Date date_of_reg) {
         setId(id);
         setName(name);
@@ -58,6 +56,7 @@ public class LogIn {
         setPassword(password);
         setDate_of_reg(date_of_reg);
     }
+
     public LogIn(String name, String login){
         setName(name);
         setLogin(login);
