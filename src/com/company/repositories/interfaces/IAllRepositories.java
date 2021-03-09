@@ -16,8 +16,6 @@ public interface IAllRepositories {
 
     List<LogIn> getAllUsers();
     List<Order> getAllOrders();
-//    List<Order> getAllOrdersForUser(String login);
-//    List<Order> getAllOrdersForUser(String login);
 
     boolean addUser(String name, String login, String password, LocalDate regDate);
     boolean addPlace(String name, Date starting_date, String reiteration, int price);
@@ -31,8 +29,6 @@ public interface IAllRepositories {
 
     List<Order> getOrdersForUserByLogin(String login);
 
-    //    int getIdByLogin(String login);
-//    List<Order> getOrdersForUserByLogin(String login);
     boolean isRemovedOrder(String login, String whereTo, String whereFrom);
     List<Travel_places> getAllPlaces();
 }
