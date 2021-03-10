@@ -15,7 +15,7 @@ public class MyApplication {
     }
 
     public void start() {
-        System.err.println("(Aika <-> Aika123, Maks <-> Maks123), usertest <-> usertest123, test <-> test123");
+        System.err.println("Admins: Aika -> Aika123, Maks -> Maks123\nUsers: usertest -> usertest123, test -> test123");
         while (true) {
             System.out.println("< - - - New process... - - - >");
             System.out.println("Welcome to my application");
@@ -33,6 +33,8 @@ public class MyApplication {
                 String password = scanner.next();
                 if (hasUser(login, password)) {
                     System.err.println("This account already exists!");
+                } else if (hasLogin(login)) {
+                    System.err.println("This login already exists!");
                 } else {
                     addNewUser(name, login, password);
                 }
@@ -53,6 +55,7 @@ public class MyApplication {
                     start();
                 }
             } else if (option == 0) {
+                System.out.println("Thank you for using our app. Have a nice day!");
                 System.exit(0);
             } else {
                 System.err.println("Error!");
@@ -67,6 +70,10 @@ public class MyApplication {
         return controller.hasUser(login, password);
     }
 
+    public boolean hasLogin(String login) {
+        return controller.hasLogin(login);
+    }
+
     public boolean isAdmin(String login, String password) {
         return controller.isAdmin(login, password);
     }
@@ -78,19 +85,24 @@ public class MyApplication {
             System.out.println("< - - - New process... - - - >");
             System.out.println("Select option: (1-9)");
             System.out.println("1. Get all users");
-            System.out.println("2. Add new user");
-            System.out.println("3. Add new place");
-            System.out.println("4. Remove user by ID");
-            System.out.println("5. Remove place by ID");
-            System.out.println("6. Get all orders");
-            System.out.println("7. Add new order");
+            System.out.println("2. Get all orders");
+            System.out.println("3. Get all places");
+            System.out.println("4. Add new user");
+            System.out.println("5. Add new order");
+            System.out.println("6. Add new place");
+            System.out.println("7. Remove user by ID");
             System.out.println("8. Remove order");
-            System.out.println("9. Get all places");
+            System.out.println("9. Remove place by ID");
             System.out.println("0. Exit from admin");
+
             int option = scanner.nextInt();
             if (option == 1) {
                 getAllUsers();
             } else if (option == 2) {
+                getAllOrders();
+            } else if (option == 3) {
+                getAllPlaces();
+            } else if (option == 4) {
                 System.out.println("Enter name: ");
                 String name = scanner.next();
                 System.out.println("Create login: ");
@@ -99,23 +111,21 @@ public class MyApplication {
                 String password = scanner.next();
                 if (hasUser(login, password)) {
                     System.err.println("This account already exists!");
+                } else if (hasLogin(login)) {
+                    System.err.println("This login already exists!");
                 } else {
                     addNewUser(name, login, password);
                 }
-            } else if (option == 3) {
-                addPlace();
-            } else if (option == 4) {
-                removeUserById();
             } else if (option == 5) {
-                removePlaceById();
-            } else if (option == 6) {
-                getAllOrders();
-            } else if (option == 7) {
                 addNewOrder();
+            } else if (option == 6) {
+                addPlace();
+            } else if (option == 7) {
+                removeUserById();
             } else if (option == 8) {
                 removeOrder();
             } else if (option == 9) {
-                getAllPlaces();
+                removePlaceById();
             } else if (option == 0) {
                 start();
             } else {
@@ -133,6 +143,7 @@ public class MyApplication {
             System.out.println("3. Add new order");
             System.out.println("4. Remove order");
             System.out.println("0. Exit from user");
+
             int option = scanner.nextInt();
             if (option == 1) {
                 System.out.println("Enter your login");
@@ -140,8 +151,9 @@ public class MyApplication {
                 getOrdersForUserByLogin(login);
             } else if (option == 2) {
                 getAllPlaces();
-                addNewOrder();
             } else if (option == 3) {
+                addNewOrder();
+            } else if (option == 4) {
                 removeOrder();
             } else if (option == 0) {
                 start();
@@ -186,15 +198,21 @@ public class MyApplication {
     }
 
     public void addNewOrder() {
+        System.out.println("Available places to travel:");
+        System.err.println("You can travel from place 1 to place 2 and in reverse!!!");
+        getAllPlaces();
+
         System.out.println("Please, enter a place, from you are going: ");
         String whereFrom = scanner.next();
         System.out.println("Please, enter a place, where you want to go: ");
         String whereTo = scanner.next();
         System.out.println("Enter your login: ");
         String login = scanner.next();
+
         boolean hasLogin = controller.hasLogin(login);
         boolean response = controller.isExistsOrder(whereFrom, whereTo, login);
         String resp;
+
         if (!response && hasLogin) {
             System.out.println("For how many days?");
             int days = scanner.nextInt();
@@ -203,6 +221,8 @@ public class MyApplication {
         } else if (!hasLogin) {
             resp = "Error! Login mistake";
             System.err.println(resp);
+            System.out.println("All users in system:");
+            getAllUsers();
         } else {
             resp = "Error! Order exists";
             System.err.println(resp);
@@ -229,6 +249,7 @@ public class MyApplication {
     ///
 
     public void removeUserById() {
+        getAllUsers();
         System.out.println("Enter id: ");
         int id = scanner.nextInt();
         String response = controller.removeUserById(id);
@@ -236,6 +257,7 @@ public class MyApplication {
     }
 
     public void removeOrder() {
+        getAllOrders();
         System.out.println("Enter your login: ");
         String login = scanner.next();
         System.out.println("Enter place from where you wanted go: ");
@@ -272,6 +294,7 @@ public class MyApplication {
 //    }
 
     public void removePlaceById() {
+        getAllPlaces();
         System.out.println("Enter id: ");
         int id = scanner.nextInt();
         String response = controller.removePlaceById(id);

@@ -80,8 +80,8 @@ public class Travel_places {
     public String toString() {
         return '\n' + "Travel_places{" +
                 "id=" + id +
-                ", place1='" + place1 + '\'' +
-                ", place2='" + place2 + '\'' +
+                "," + place1 +
+                " <-> " + place2 +
                 ", date=" + date +
                 ", reiteration='" + reiteration + '\'' +
                 ", price_per_day=" + price_per_day +
