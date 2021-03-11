@@ -163,7 +163,7 @@ public class MyApplication {
         }
     }
 
-    ///аупваонрпаывфыфвыапро
+    ///
 
     public void getAllUsers() {
         String response = controller.getAllUsers();
